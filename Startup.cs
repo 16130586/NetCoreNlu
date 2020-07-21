@@ -26,18 +26,23 @@ namespace NetProject
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSession(options =>
+            {
+                options.Cookie.Name = ".AdventureWorks.Session";
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.IsEssential = true;
+            });
+
             services.AddDbContext<OurDbContext>(options =>
-     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddSingleton<BillData, BillData>();
-            services.AddSingleton<BillDetailData, BillDetailData>();
-            services.AddSingleton<CategoryData, CategoryData>();
-            services.AddSingleton<CommentData, CommentData>();
-            services.AddSingleton<ProductData, ProductData>();
-            services.AddSingleton<SliderData, SliderData>();
-            services.AddSingleton<TypeProductData, TypeProductData>();
-            services.AddSingleton<UserData, UserData>();
-
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<SliderData, SliderData>();
+            services.AddScoped<UserData, UserData>();
+            services.AddScoped<TypeProductData, TypeProductData>();
+            services.AddScoped<CategoryData, CategoryData>();
+            services.AddScoped<ProductData, ProductData>();
+            services.AddScoped<BillData, BillData>();
+            services.AddScoped<BillDetailData, BillDetailData>();
+            services.AddScoped<CommentData, CommentData>();
             services.AddControllersWithViews();
         }
 
@@ -58,14 +63,14 @@ namespace NetProject
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseSession();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=HomePage}/{action=Index}/{id?}");
             });
         }
     }

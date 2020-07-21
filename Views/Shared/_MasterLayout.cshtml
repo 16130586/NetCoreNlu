@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html lang="">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mobile-dd</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="project/css/MyCss/mycss.css">
+    <link rel="stylesheet" href="project/css/bootstrap.min.css">
+    <script src="project/js/jquery/jquery.min.js"></script>
+    <script src="project/js/popper/popper.min.js"></script>
+    <script src="project/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="project/css/all.css">
+    <link rel="stylesheet" type="text/css" href="project/css/OwlCarousel2-2.3.4/dist/assets/owl.carousel.css">
+    <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="project/css/bootstrap411.min.css">
+    <script type="text/javascript" src="project/css/OwlCarousel2-2.3.4/docs/assets/vendors/jquery.min.js"></script>
+    <script type="text/javascript" src="project/css/OwlCarousel2-2.3.4/dist/owl.carousel.js"></script>
+    <script type="text/javascript" src="project/js/ckeditor/ckeditor.js"></script>
+    <link rel="stylesheet" media="screen, projection" href="project/css/drift-master/dist/drift-basic.css">
+
+    <script type="text/javascript" src="project/js/jquery/dataTables.min.js"></script>
+    <script type="text/javascript" src="project/js/jquery/dataTables.bootstrap4.min.js"></script>
+
+    <style>
+        .quantity {
+            position: relative;
+        }
+
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        .quantity input {
+            width: 45px;
+            height: 42px;
+            line-height: 1.65;
+            float: left;
+            display: block;
+            padding: 0;
+            margin: 0;
+            padding-left: 20px;
+            border: 1px solid #eee;
+            background-color: #effbe2;
+        }
+
+            .quantity input:focus {
+                outline: 0;
+            }
+
+        .quantity-nav {
+            float: left;
+            position: relative;
+            height: 42px;
+        }
+
+        .quantity-button {
+            position: relative;
+            cursor: pointer;
+            width: 20px;
+            text-align: center;
+            color: white;
+            font-size: 20px;
+            font-family: "Trebuchet MS", Helvetica, sans-serif !important;
+            line-height: 1;
+            transform: translateX(-100%);
+            user-select: none;
+            background-color: #4CAF50;
+            left: 20px;
+        }
+
+            .quantity-button.quantity-up {
+                position: absolute;
+                height: 50%;
+                top: 0;
+                border-bottom: 1px solid #eee;
+            }
+
+            .quantity-button.quantity-down {
+                position: absolute;
+                bottom: 0;
+                height: 50%;
+            }
+    </style>
+</head>
+<body>
+    @await Html.PartialAsync("./_Header.cshtml");
+    @RenderBody();
+    @await Html.PartialAsync("./_Footer.cshtml")
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

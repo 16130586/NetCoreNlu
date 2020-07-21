@@ -1,0 +1,354 @@
+﻿@{
+    var res_statusHomePage = ViewData["res_statusHomePage"];
+    var res_statusAdmin = ViewData["res_statusAdmin"];
+    List<Category> res_getCateProduct = (List<Category>)ViewData["res_getCateProduct"];
+    int id_cateChose = (int)(ViewData["id_cateChose"] ?? -1);
+    var user = Context.User;
+    var userName = user.Claims.Where(cl => cl.Type == "USER_NAME").FirstOrDefault();
+    var userImg = user.Claims.Where(cl => cl.Type == "USER_IMG").FirstOrDefault();
+    var permissionLevel = user.Claims.Where(cl => cl.Type == "PERMISSION_LEVEL").FirstOrDefault();
+    var hasPermissionLevel = user != null && user.Identity.IsAuthenticated && permissionLevel != null && (permissionLevel.Value.Equals("admin") || permissionLevel.Value.Equals("manager"));
+}
+
+<!--header-->
+<!-- section 0-->
+<section id="section-0">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <!-- container -->
+        <div class="container">
+            <a class="navbar-brand" href="HomePage/Index"><img width="214" src="project/image/logo.png" alt=""></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbarToggler_1" aria-controls="navbarToggler-1" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse">
+                <div class="row ml-3">
+                    <i class="fas fa-map-marked-alt icon-green"></i>
+                    <p class="txt-contact"><span>Địa chỉ</span><br><strong>Trường Đại Học Nông Lâm TPHCM</strong></p>
+                </div>
+                <div class="row ml-5">
+                    <i class="fas fa-headset icon-green"></i>
+                    <p class="txt-contact"><span>Hỗ trợ 24/7</span><br><strong>+0833532303</strong></p>
+                </div>
+            </div>
+            <div class="collapse navbar-collapse navbarToggler_1" id="">
+                <form action="SearchProduct" class="form-inline my-2 my-lg-0 ml-auto">
+                    <div class="dropdown">
+                        <input class="form-control" type="search" name="getSearch" id="getSearch" oninput="ajaxSerch(document.getElementById('getSearch').value)" placeholder="Bạn muốn tìm gì?" aria-label="Search" style="padding-right: 60px;">
+
+                        <button style="margin-left: -55px;" class="fas fa-search btn btn-outline-success my-2 my-sm-0" type="submit"></button>
+                        <div id="show_resultSearch">
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </nav>
+</section>
+<!-- section 1-->
+<section id="section-1" class="sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-default navbar-fixed-top">
+        <!-- container -->
+        <div class="container">
+            <div class="collapse navbar-collapse navbarToggler_1">
+                <ul class="navbar-nav nav-tabs mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item">
+                        @if ("disible".Equals(res_statusHomePage))
+                        {
+                            <a class="nav-link" href="HomePage/Index">Trang chủ</a>
+                        }
+                        else
+                        {
+                            <a class="nav-link active" href="HomePage/Index">Trang chủ</a>
+                        }
+
+                    </li>
+
+                    @foreach (var category in res_getCateProduct)
+                    {
+                        <li class="nav-item dropdown">
+                            @if (category.Id == id_cateChose)
+                            {
+                                <a class="nav-link dropdown-toggle active" href="#" title="Điện thoại di động, smartphone!"><i class="@category.IconCategory icon-green"></i>@category.NameCategory</a>
+                            }
+                            else
+                            {
+                                <a class="nav-link dropdown-toggle" href="#" title="Điện thoại di động, smartphone!"><i class="@category.IconCategory icon-green"></i>@category.NameCategory</a>
+                            }
+                            <div class="dropdown-menu">
+                                @{
+                                    var cate_id = category.Id;
+                                    var res_getTypeProduct = (List<TypeProduct>)ViewData["res_getTypeProduct_" + cate_id];
+
+                                    foreach (var type in res_getTypeProduct)
+                                    {
+                                        <a class="dropdown-item" href="TypeProduct?type_product=@cate_id">@type.NameType</a>
+                                    }
+                                }
+                            </div>
+                        </li>
+                    }
+                    @if (hasPermissionLevel)
+                    {
+                        <li class="nav-item">
+                            @if ("disible".Equals(res_statusAdmin))
+                            {
+                                <a class="nav-link" href="AdminListProduct"><i class="fas fa-user-cog icon-green"></i> Admin</a>
+                            }
+                            else
+                            {
+                                <a class="nav-link active" href="AdminListProduct"><i class="fas fa-user-cog icon-green"></i> Admin</a>
+                            }
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="collapse navbar-collapse navbarToggler_1">
+                <div class="ml-auto">
+                    @if (user.Identity.IsAuthenticated)
+                    {
+                        <div class="dropdown float-left">
+                            <a href="" class="btn btn-light dropdown-toggle"><img src="project/image/user/@userImg.Value" style="height: 30px">@userName.Value</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="ShowProfileUser"><i class="far fa-id-card mr-2"></i> Xem hồ sơ</a>
+                                <a class="dropdown-item" href="ShowEditPassword"><i class="fas fa-cog mr-2"></i> Đổi mật khẩu</a>
+                                <a class="dropdown-item" href="HistoryOrder"><i class="fas fa-history mr-2"></i> Lịch sử mua hàng</a>
+                                <a class="dropdown-item" href="LogOut"><i class="fas fa-sign-out-alt mr-2"></i> Đăng xuất</a>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <span data-target="#myModal-signIn" data-toggle="modal" id="icon-user"><a class="btn btn-light" id="btnlogin" style="cursor: pointer" data-toggle="tooltip" data-placement="top" title="Đăng nhập!"><i class='fas fa-user icon-green'></i>Đăng nhập</a></span>
+                    }
+
+
+                    <div class="dropdown float-right">
+                        <div id="show_miniCart">
+                            @{
+
+                                var cart = NetProject.Session.SessionFunction.GetCart(Context.Session);
+                                if (cart == null)
+                                {
+                                    cart = new Cart();
+                                }
+                                var count = cart.List.Count();
+                                var totalMoney = cart.Total;
+                            }
+                            <a class="btn btn-light" href="ListCart"><i id="icon-shoppingcart" style="font-size: 22px" class='fas fa-shopping-cart icon-green'></i><p id="txtQty" style="position: absolute;top: -8px;left: 38px;color: white;font-size: 16px; background-color: #FF5722; padding: 0px 8px; border-radius: 50%">@count</p></a>
+                            <div class="dropdown-menu" style="width: 250px">
+                                <div class="container">
+                                    @foreach (Product p in cart.List)
+                                    {
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <img style="width : 40px" src="project/image/product/@p.ImageProduct">
+                                            </div>
+                                            <div class="col-md-8">
+                                                <p style="font-size: 13px">@p.NameProduct</p>
+                                                <p style="font-size: 13px; color: coral">
+
+                                                    <input type="number" onchange="ajaxSetQtyOnHeader(@p.Id,this.value)" min="1" max="3" value="@p.Quantity" style="width: 40px; color: crimson; line-height: 30px">
+
+                                                    x @p.PriceListed ₫
+                                                </p>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <a style="cursor: pointer" onclick="ajaxDelCartOnHeader(@p.Id)"><i class="far fa-times-circle text-danger"></i></a>
+                                            </div>
+                                        </div>
+                                        <div style="height: 1px; width: 200px; background-color: #58585854; margin-top: 10px; margin-bottom: 10px" class="container"></div>
+                                    }
+                                </div>
+                                <div class="container">
+                                    <p>Tổng tiền: <span style="color: coral">@totalMoney ₫</span></p>
+                                    <div style="height: 1px; width: 200px; background-color: #58585854; margin-top: 10px; margin-bottom: 10px" class="container"></div>
+                                    @if (user != null && user.Identity.IsAuthenticated)
+                                    {
+                                        <a href="CheckOut" class="btn btn-primary">Đặt hàng</a>
+                                    }
+                                    else
+                                    {
+                                        <button data-target="#myModal-signIn" data-toggle="modal" class="btn btn-outline-primary">Đặt hàng <span style="color: coral"> <i class="fas fa-tags"></i> </span></button>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</section>
+
+
+<!-- The Modal Sign in-->
+<div class="modal fade" id="myModal-signIn">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Sign in Header -->
+            <div class="modal-header">
+                <h3 class="modal-title">ĐĂNG NHẬP</h3>
+                @{
+                    var mes_err = NetProject.Session.SessionFunction.GetString(Context.Session, "error_login");
+                }
+                <button type="button" class="close text-danger" data-dismiss="modal"><i class="fas fa-times-circle"></i></button>
+
+            </div>
+
+            <!-- Sign in body -->
+            <div class="modal-body">
+                <!--form-->
+                <form action="DoLogin"
+                      method="post">
+                    <!--container-->
+                    <div class="container">
+                        @if (mes_err != null)
+                        {
+
+
+
+                            <div style="text-align: center;background: #fde7e7;border: 1px solid red;border-radius: 6px;padding: 5px;margin-bottom: 10px">
+                                <strong>Sai thông tin đăng nhập</strong>
+                                <p>@mes_err</p>
+                            </div>
+                            <script>
+                                $(document).ready(function () {
+                                    document.getElementById("btnlogin").click();
+                                        session.removeAttribute("error_login");
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                %>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            });
+                            </script>
+                        }
+                        <div>
+                            <label for="email_1">Email:</label>
+                            <input type="email" class="form-control" id="email_1" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="pwd">Mật khẩu:</label>
+                            <input type="password" class="form-control" id="pwd" name="pwd" required>
+                        </div>
+                        <input id="setURL_login" name="getURL" style="display: none">
+                        <button type="submit" class="btn btn-success w-100"><i class="fas fa-sign-in-alt mr-3"></i> Đăng nhập</button>
+                    </div>
+                </form>
+                <a href="ShowForgotPassword" class="nav-link">Quên mật khẩu?</a>
+            </div>
+
+            <!-- Sign in footer -->
+            <div class="modal-footer">
+
+                <h6 class="w-100">Bạn chưa có tài khoản?</h6>
+                <a href="#" id="btnSignUp" class="btn btn-danger w-100" data-target="#myModal-signUp" data-toggle="modal" data-dismiss="modal"><i class="fas fa-user-plus mr-3"></i> Đăng ký ngay</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- The Modal Sign up-->
+<div class="modal fade" id="myModal-signUp">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Sign up Header -->
+            <div class="modal-header">
+                <h3 class="modal-title">ĐĂNG KÝ</h3>
+
+                @{
+                    var err_signUp = NetProject.Session.SessionFunction.GetString(Context.Session, "error_signUp");
+                }
+
+                <button type="button" class="close text-danger" data-dismiss="modal"><i class="fas fa-times-circle"></i></button>
+
+            </div>
+
+            <!-- Sign up body -->
+            <div class="modal-body">
+                <!--form-->
+                <form action="DoSignUp"
+                      method="post">
+                    @if (err_signUp != null)
+                    {
+
+
+
+                        <div style="text-align: center;background: #fde7e7;border: 1px solid red;border-radius: 6px;padding: 5px;margin-bottom: 10px">
+                            <strong>Sai thông tin đăng ký</strong>
+                            <p>@err_signUp</p>
+                        </div>
+                        <script>
+                            $(document).ready(function () {
+                                document.getElementById("btnSignUp").click();
+                                window.onclick = function (event) {
+                                    if (event.target == document.getElementById("myModal-signIn") || event.target == document.getElementById("myModal-signUp")) {
+                                        session.removeAttribute("err_signUp");
+                                    }
+                                });
+                        </script>
+                    }
+                    <!--container-->
+                    <div class="container">
+                        <div class="form-group">
+                            <label for="yourName">Tên của bạn:</label>
+                            <input type="text" class="form-control" id="yourName" name="yourName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" class="form-control" id="email" required name="yourEmail">
+                        </div>
+                        <div class="form-group">
+                            <label for="pwd">
+                                Mật khẩu:
+                                <input type="password" class="form-control" id="password_signUp" required name="yourPass" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Phải có ít nhất một số, một chữ cái in hoa, một chữ cái thường và có ít nhất 8 ký tự">
+                            </label>
+                            <div id="message_signUp">
+                                <strong class="text-primary">Mật khẩu phải có:</strong>
+                                <p id="letter" class="invalid">ít nhất 1 <b>chữ cái thường</b></p>
+                                <p id="capital" class="invalid">ít nhất 1 <b>chữ cái in Hoa</b></p>
+                                <p id="number" class="invalid">ít nhất 1 <b>con số</b></p>
+                                <p id="length" class="invalid">Độ dài tối thiểu <b>8 ký tự</b></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pwd">
+                                Nhập lại mật khẩu:
+                                <input type="password" class="form-control" name="confirm_password" id="confirm_password">
+                                <span id='message_err'></span>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="yourQuestion">Đặt câu hỏi bí mật (Giúp bạn lấy lại mật khẩu):</label>
+                            <input type="text" class="form-control" id="yourQuestion" required name="yourQuestion">
+                        </div>
+                        <div class="form-group">
+                            <label for="yourAnswer">Câu trả lời:</label>
+                            <input type="text" class="form-control" id="yourAnswer" required name="yourAnswer">
+                        </div>
+                        <div class="form-group">
+                            <label for="numPhone">Số điện thoại:</label>
+                            <input type="text" pattern="^[0-9-+\s()]*$" maxlength="12" title="Vui lòng nhập số điện thoại đang sử dụng của bạn" class="form-control" id="numPhone" required name="yourNumPhone">
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                Giới tính:<br>
+                                <div class="custom-control custom-radio custom-control-inline ml-4">
+                                    <input type="radio" class="custom-control-input" value="Nam" id="male" name="yourGender" checked />
+                                    <label class="custom-control-label" for="male">Nam</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" class="custom-control-input" value="Nữ" id="female" name="yourGender" />
+                                    <label class="custom-control-label" for="female">Nữ</label>
+                                </div>
+                            </label>
+                        </div>
+                        <input id="setURL_signUp" name="getURL" style="display: none" />
+                        <button type="submit" onclick="validateMyForm()" class="btn btn-success w-100"><i class="fas fa-user-plus mr-3"></i> Đăng ký</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<button onclick="topFunction()" id="btnBackTop" title="Go to top"><i class="fas fa-arrow-circle-up"></i></button>
