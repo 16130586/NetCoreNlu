@@ -17,5 +17,16 @@ namespace NetProject.DbAccessor
             _context.Sliders.Add(slider);
             _context.SaveChanges();
         }
+        public List<Slider> GetSlidersIndex() {
+            try
+            {
+                return _context.Sliders.Where(sld => sld.Active == 1).ToList();
+            }
+            catch (Exception e) {
+                Console.WriteLine(e.Message);
+                return new List<Slider>();
+            } 
+          
+        }
     }
 }

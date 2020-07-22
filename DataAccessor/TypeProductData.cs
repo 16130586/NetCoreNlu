@@ -17,6 +17,17 @@ namespace NetProject.DbAccessor
             _context.TypeProducts.Add(typeProduct);
             _context.SaveChanges();
         }
+        public List<TypeProduct> GetTypeProduct(int idCate) {
+            try
+            {
+                return _context.TypeProducts.Where(tpd => tpd.Active == 1 && tpd.IdCategory == idCate) .ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return new List<TypeProduct>();
+            }
+        }
     }
 }
 

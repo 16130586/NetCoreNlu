@@ -17,5 +17,16 @@ namespace NetProject.DbAccessor
             _context.Categories.Add(category);
             _context.SaveChanges();
         }
+        public List<Category> GetCategoryProduct() {
+            try
+            {
+                return _context.Categories.Where(sld => sld.Active == 1).ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return new List<Category>();
+            }
+        }
     }
 }

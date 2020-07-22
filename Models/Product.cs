@@ -33,5 +33,8 @@ namespace NetProject.Models
         public string DateCreated { get; set; }
 
         public int Active { get; set; }
+
+        public string CategoryName { get; set; }
+
     }
 }
