@@ -36,7 +36,6 @@ namespace NetProject.Controllers
             ViewData["countPromotion"] = _productDataAcessor.CountPromotionProducts();
             ViewData["promotionProducts"] = _productDataAcessor.GetPromitionProduct();
             ViewData["hotSmartPhones"] = _productDataAcessor.GetProductByCategory(1);
-            var hotAccessProducts = new List<Product>();
             ViewData["hotAccessProducts"] = _productDataAcessor.GetProductByCategory(2);
           
             var cateProduct = _categoryDataAcessor.GetCategoryProduct();
