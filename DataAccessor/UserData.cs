@@ -19,7 +19,10 @@ namespace NetProject.DbAccessor
         }
 
         public User GetUser(string email, string password) {
-             return _context.Users.Where(u => u.Email.Equals(email) && u.Password.Equals(password)).FirstOrDefault();
+            return _context.Users.Where(u => u.Email.Equals(email) && u.Password.Equals(password)).FirstOrDefault();
+        }
+        public User GetUserByEmail(string email) {
+            return _context.Users.Where(u => u.Email.Equals(email)).FirstOrDefault();
         }
     }
 }
