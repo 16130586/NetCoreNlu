@@ -4,9 +4,9 @@
     List<Category> res_getCateProduct = (List<Category>)ViewData["res_getCateProduct"];
     int id_cateChose = (int)(ViewData["id_cateChose"] ?? -1);
     var user = Context.User;
-    var userName = user.Claims.Where(cl => cl.Type == "USER_NAME").FirstOrDefault();
-    var userImg = user.Claims.Where(cl => cl.Type == "USER_IMG").FirstOrDefault();
-    var permissionLevel = user.Claims.Where(cl => cl.Type == "PERMISSION_LEVEL").FirstOrDefault();
+    var userName = user.Claims.Where(cl => cl.Type == "NAME").FirstOrDefault();
+    var userImg = user.Claims.Where(cl => cl.Type == "IMG_USER").FirstOrDefault();
+    var permissionLevel = user.Claims.Where(cl => cl.Type == "LEVEL").FirstOrDefault();
     var hasPermissionLevel = user != null && user.Identity.IsAuthenticated && permissionLevel != null && (permissionLevel.Value.Equals("admin") || permissionLevel.Value.Equals("manager"));
 }
 
@@ -104,26 +104,8 @@
                 </ul>
             </div>
             <div class="collapse navbar-collapse navbarToggler_1">
-                <div class="ml-auto">
-                    @if (user.Identity.IsAuthenticated)
-                    {
-                        <div class="dropdown float-left">
-                            <a href="" class="btn btn-light dropdown-toggle"><img src="project/image/user/@userImg.Value" style="height: 30px">@userName.Value</a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="ShowProfileUser"><i class="far fa-id-card mr-2"></i> Xem hồ sơ</a>
-                                <a class="dropdown-item" href="ShowEditPassword"><i class="fas fa-cog mr-2"></i> Đổi mật khẩu</a>
-                                <a class="dropdown-item" href="HistoryOrder"><i class="fas fa-history mr-2"></i> Lịch sử mua hàng</a>
-                                <a class="dropdown-item" href="LogOut"><i class="fas fa-sign-out-alt mr-2"></i> Đăng xuất</a>
-                            </div>
-                        </div>
-                    }
-                    else
-                    {
-                        <span data-target="#myModal-signIn" data-toggle="modal" id="icon-user"><a class="btn btn-light" id="btnlogin" style="cursor: pointer" data-toggle="tooltip" data-placement="top" title="Đăng nhập!"><i class='fas fa-user icon-green'></i>Đăng nhập</a></span>
-                    }
-
-
-                    <div class="dropdown float-right">
+                <div class="ml-auto" style="display:flex">
+                    <div class="dropdown">
                         <div id="show_miniCart">
                             @{
 
@@ -175,6 +157,25 @@
                             </div>
                         </div>
                     </div>
+                    @if (user.Identity.IsAuthenticated)
+                    {
+                        <div class="dropdown float-left">
+                            <a href="" class="btn btn-light dropdown-toggle"><img src="project/image/user/@userImg.Value" style="height: 30px">@userName.Value</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="ShowProfileUser"><i class="far fa-id-card mr-2"></i> Xem hồ sơ</a>
+                                <a class="dropdown-item" href="ShowEditPassword"><i class="fas fa-cog mr-2"></i> Đổi mật khẩu</a>
+                                <a class="dropdown-item" href="HistoryOrder"><i class="fas fa-history mr-2"></i> Lịch sử mua hàng</a>
+                                <a class="dropdown-item" asp-controller="User" asp-action="Logout"><i class="fas fa-sign-out-alt mr-2"></i> Đăng xuất</a>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <span data-target="#myModal-signIn" data-toggle="modal" id="icon-user"><a class="btn btn-light" id="btnlogin" style="cursor: pointer" data-toggle="tooltip" data-placement="top" title="Đăng nhập!"><i class='fas fa-user icon-green'></i>Đăng nhập</a></span>
+                    }
+
+
+
                 </div>
             </div>
         </div>
@@ -200,14 +201,12 @@
             <!-- Sign in body -->
             <div class="modal-body">
                 <!--form-->
-                <form action="DoLogin"
+                <form asp-action="Login" asp-controller="User"
                       method="post">
                     <!--container-->
                     <div class="container">
                         @if (mes_err != null)
                         {
-
-
 
                             <div style="text-align: center;background: #fde7e7;border: 1px solid red;border-radius: 6px;padding: 5px;margin-bottom: 10px">
                                 <strong>Sai thông tin đăng nhập</strong>
@@ -267,11 +266,10 @@
             <!-- Sign up body -->
             <div class="modal-body">
                 <!--form-->
-                <form action="DoSignUp"
+                <form asp-action="SignUp" asp-controller="User"
                       method="post">
                     @if (err_signUp != null)
                     {
-
 
 
                         <div style="text-align: center;background: #fde7e7;border: 1px solid red;border-radius: 6px;padding: 5px;margin-bottom: 10px">
@@ -352,3 +350,4 @@
     </div>
 </div>
 <button onclick="topFunction()" id="btnBackTop" title="Go to top"><i class="fas fa-arrow-circle-up"></i></button>
+    
