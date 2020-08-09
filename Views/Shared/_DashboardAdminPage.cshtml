@@ -1,0 +1,93 @@
+﻿
+
+
+<div class="sidebar col-md-2 lstMenu-left">
+    <h5 class="mt-4 mb-4"><i class="fas fa-tachometer-alt mr-2"></i> BẢNG ĐIỀU KHIỂN</h5>
+    <ul class="nav flex-column nav-pills">
+        <li class="nav-item border border-top-0 border-left-0 border-right-0">
+            <a class="nav-link bg--lstDash text-info" href="#" data-toggle="collapse" data-target="#show-lstSelecCate">
+                <i class="fas fa-box-open mr-2"></i> Danh mục <i class="fas fa-ellipsis-h float-right"></i>
+            </a>
+        </li>
+        <div class="collapse" id="show-lstSelecCate">
+            <ul class="nav flex-column">
+                <li class="nav-item border border-top-0 border-left-0 border-right-0">
+                    <a asp-action="AdminAddCate" asp-controller="Admin" class="nav-link text-info"><i class="fas fa-plus-circle ml-4 mr-2"></i> Thêm</a>
+                </li>
+                <li class="nav-item border border-top-0 border-left-0 border-right-0">
+                    <a asp-action="AdminListCate" asp-controller="Admin" class="nav-link text-info"><i class="fas fa-list-ol ml-4 mr-2"></i> Danh sách</a>
+                </li>
+            </ul>
+        </div>
+        <li class="nav-item border border-top-0 border-left-0 border-right-0">
+            <a class="nav-link bg--lstDash text-info" href="#" data-toggle="collapse" data-target="#show_lstSelecType">
+                <i class="fas fa-cube mr-2"></i> Loại <i class="fas fa-ellipsis-h float-right"></i>
+            </a>
+        </li>
+        <div class="collapse" id="show_lstSelecType">
+            <ul class="nav flex-column">
+                <li class="nav-item border border-top-0 border-left-0 border-right-0">
+                    <a asp-action="AdminAddType" asp-controller="Admin" class="nav-link text-info"><i class="fas fa-plus-circle ml-4 mr-2"></i> Thêm</a>
+                </li>
+                <li class="nav-item border border-top-0 border-left-0 border-right-0">
+                    <a asp-action="AdminListType" asp-controller="Admin" class="nav-link text-info"><i class="fas fa-list-ol ml-4 mr-2"></i> Danh sách</a>
+                </li>
+            </ul>
+        </div>
+        <li class="nav-item border border-top-0 border-left-0 border-right-0">
+            <a class="nav-link bg--lstDash text-info" href="#" data-toggle="collapse" data-target="#show-lstSelecProduct">
+                <i class="fas fa-cubes mr-2 size--20px"></i> Sản phẩm <i class="fas fa-ellipsis-h float-right"></i>
+            </a>
+        </li>
+        <div class="collapse" id="show-lstSelecProduct">
+            <ul class="nav flex-column">
+                <li class="nav-item border border-top-0 border-left-0 border-right-0">
+                    <a asp-action="AdminAddProduct" asp-controller="Admin" class="nav-link text-info"><i class="fas fa-plus-circle ml-4 mr-2"></i> Thêm</a>
+                </li>
+                <li class="nav-item border border-top-0 border-left-0 border-right-0">
+                    <a asp-action="AdminListProduct" asp-controller="Admin" class="nav-link text-info"><i class="fas fa-list-ol ml-4 mr-2"></i> Danh sách</a>
+                </li>
+            </ul>
+        </div>
+        <li class="nav-item border border-top-0 border-left-0 border-right-0">
+            <a class="nav-link bg--lstDash text-info" href="#" data-toggle="collapse" data-target="#show-lstSelecSlider">
+                <i class="fas fa-sliders-h mr-2"></i> Slider <i class="fas fa-ellipsis-h float-right"></i>
+            </a>
+        </li>
+        <div class="collapse" id="show-lstSelecSlider">
+            <ul class="nav flex-column">
+                <li class="nav-item border border-top-0 border-left-0 border-right-0">
+                    <a asp-action="AdminAddSlide" asp-controller="Admin" class="nav-link text-info"><i class="fas fa-plus-circle ml-4 mr-2"></i> Thêm</a>
+                </li>
+                <li class="nav-item border border-top-0 border-left-0 border-right-0">
+                    <a asp-action="AdminListSlide" asp-controller="Admin" class="nav-link text-info"><i class="fas fa-list-ol ml-4 mr-2"></i> Danh sách</a>
+                </li>
+            </ul>
+        </div>
+        <li class="nav-item border border-top-0 border-left-0 border-right-0">
+            <a class="nav-link bg--lstDash text-info" href="#" data-toggle="collapse" data-target="#show-lstSelecBill">
+                <i class="fas fa-money-bill-wave mr-2"></i> Hóa đơn <i class="fas fa-ellipsis-h float-right"></i>
+            </a>
+        </li>
+        <div class="collapse" id="show-lstSelecBill">
+            <ul class="nav flex-column">
+                <li class="nav-item border border-top-0 border-left-0 border-right-0">
+                    <a asp-action="AdminListBill" asp-controller="Admin" class="nav-link text-info"><i class="fas fa-list-ol ml-4 mr-2"></i> DS hóa đơn</a>
+                </li>
+            </ul>
+        </div>
+        <li class="nav-item border border-top-0 border-left-0 border-right-0">
+            <a class="nav-link bg--lstDash text-info" href="#" data-toggle="collapse" data-target="#show-lstSelecUser">
+                <i class="fas fa-users mr-2"></i> Thành viên <i class="fas fa-ellipsis-h float-right"></i>
+            </a>
+        </li>
+        <div class="collapse" id="show-lstSelecUser">
+            <ul class="nav flex-column">
+                <li class="nav-item border border-top-0 border-left-0 border-right-0">
+                    <a asp-action="AdminListUser" asp-controller="Admin" class="nav-link text-info"><i class="fas fa-list-ol ml-4 mr-2"></i> Danh sách</a>
+                </li>
+            </ul>
+        </div>
+    </ul>
+</div>
+

@@ -16,7 +16,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <!-- container -->
         <div class="container">
-            <a class="navbar-brand" href="HomePage/Index"><img width="214" src="project/image/logo.png" alt=""></a>
+            <a class="navbar-brand" asp-action="Index" asp-controller="HomePage"><img width="214" src="/project/image/logo.png" alt=""></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbarToggler_1" aria-controls="navbarToggler-1" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -55,11 +55,11 @@
                     <li class="nav-item">
                         @if ("disible".Equals(res_statusHomePage))
                         {
-                            <a class="nav-link" href="HomePage/Index">Trang chủ</a>
+                            <a class="nav-link" asp-action="Index" asp-controller="HomePage">Trang chủ</a>
                         }
                         else
                         {
-                            <a class="nav-link active" href="HomePage/Index">Trang chủ</a>
+                            <a class="nav-link active" asp-action="Index" asp-controller="HomePage">Trang chủ</a>
                         }
 
                     </li>
@@ -124,7 +124,7 @@
                                     {
                                         <div class="row">
                                             <div class="col-md-2">
-                                                <img style="width : 40px" src="project/image/product/@p.ImageProduct">
+                                                <img style="width : 40px" src="/project/image/product/@p.ImageProduct">
                                             </div>
                                             <div class="col-md-8">
                                                 <p style="font-size: 13px">@p.NameProduct</p>
@@ -160,7 +160,7 @@
                     @if (user.Identity.IsAuthenticated)
                     {
                         <div class="dropdown float-left">
-                            <a href="" class="btn btn-light dropdown-toggle"><img src="project/image/user/@userImg.Value" style="height: 30px">@userName.Value</a>
+                            <a href="" class="btn btn-light dropdown-toggle"><img src="/project/image/user/@userImg.Value" style="height: 30px">@userName.Value</a>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="ShowProfileUser"><i class="far fa-id-card mr-2"></i> Xem hồ sơ</a>
                                 <a class="dropdown-item" href="ShowEditPassword"><i class="fas fa-cog mr-2"></i> Đổi mật khẩu</a>

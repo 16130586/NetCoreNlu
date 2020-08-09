@@ -18,5 +18,10 @@ namespace NetProject.Models
         public string Question { get; set; }
         public string Answer { get; set; }
         public int Active { get; set; }
+
+        public bool CheckLevel()
+        {
+            return Level.Equals("admin") || Level.Equals("manager") ? true : false;
+        }
     }
 }

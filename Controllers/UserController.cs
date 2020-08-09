@@ -51,7 +51,7 @@ namespace NetProject.Controllers
             };
             HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity), authProperties);
-
+            SessionFunction.SetUser(HttpContext.Session ,user);
             return Redirect(entryParams.GetUrl);
         }
         public IActionResult Logout()
@@ -110,8 +110,7 @@ namespace NetProject.Controllers
                         _userData.AddUser(newUser);
                         var rs_2 = _userData.GetUser(entryParams.YourEmail, entryParams.YourPass);
                         //session.setAttribute("Auth", user);
-                        SessionFunction.SetObject(HttpContext.Session, "Auth", rs_2);
-
+                        SessionFunction.SetUser(HttpContext.Session, rs_2);
                         var claims = new List<Claim>()
                         {
                             new Claim("ID" , rs_2.Id + ""),

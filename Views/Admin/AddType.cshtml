@@ -1,0 +1,89 @@
+﻿@{
+    Layout = "_MasterLayout";
+    var res_getCateProduct = ViewData["res_getCateProduct"] as List<Category>;
+}
+<section id="section_contentAdmin">
+    <div class="container_admin">
+        <div class="row box_row p-3">
+            @await Html.PartialAsync("../Shared/_DashboardAdminPage.cshtml");
+
+            <div class="col-md-10 bg bg-light">
+                <h2 class="mb-5">Loại  <small>thêm</small></h2>
+                <form asp-controller="Admin" asp-action="AddType" method="post">
+                    <div class="form-group">
+                        <label for="select_nameCate">Danh mục:</label>
+                        <select class="form-control bg bg-secondary text-light w-50" id="select_nameCate" name="select_nameCate">
+                            <option value="0">--Hãy chọn--</option>
+                            @{
+
+                                foreach (var cate in res_getCateProduct)
+                                {
+                                    <option value="@cate.Id">@cate.NameCategory</option>
+                                }
+                            }
+
+                        </select><br>
+                        <label for="name_type">Tên loại:</label>
+                        <input type="text" required class="form-control w-50" id="name_type" placeholder="Nhập tên loại" name="name_type"><br>
+                        <label for="image_type">Hình loại:</label>
+                        <p>
+                            <img height="100" class="img-thumbnail" id="output" src="/project/image/Null-Image.png">
+                        </p>
+                        <input type="file" required name="image_type" id="image_type" class="form-control-file border w-50" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])"><br>
+                    </div>
+                    <button type="submit" onclick="validateFormCheckOut()" class="btn btn-primary">Thêm</button>
+                    <a asp-controller="Admin" asp-action="ListType" class="btn btn-danger">Hủy</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@{
+    var mes_success = NetProject.Session.SessionFunction.GetString(Context.Session, "mes_err");
+}
+<!-- Feed back-->
+<div class="modal fade" id="checkout_success">
+    <div class="modal-dialog">
+        <div class="modal-content" style="padding: 110px">
+
+            <h3 class="text-success">@mes_success</h3>
+
+        </div>
+    </div>
+</div>
+<a href="#" id="btnSuccess" data-target="#checkout_success" data-toggle="modal" data-dismiss="modal"></a>
+
+@{
+    if (mes_success != null)
+    {
+        <script>
+            $(document).ready(function () {
+                document.getElementById("btnSuccess").click();
+                window.onclick = function (event) {
+
+                    if (event.target == document.getElementById("checkout_success")) {
+
+
+                    }
+                }
+            });
+        </script>
+    }
+}
+
+<script>
+    function validateFormCheckOut() {
+
+        if (document.getElementById('select_nameCate').value == 0) {
+            alert("Vui lòng chọn mục này");
+            document.getElementById('select_nameCate').style.border = "1px solid red"
+            event.preventDefault();
+            return false;
+        }
+
+
+        return true;
+    }
+</script>
