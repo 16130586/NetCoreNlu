@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NetProject.DbAccessor;
+using NetProject.Models;
 using NetProject.Session;
 
 namespace NetProject.Controllers
@@ -52,6 +53,36 @@ namespace NetProject.Controllers
         [HttpPost]
         public IActionResult AddTypeToDB() {
             return null;
+            /*Add Product*/
         }
-    }
+        [HttpGet]
+        public IActionResult AddProduct()
+        {
+            var cateProduct = _categoryDataAcessor.GetCategoryProduct();
+            ViewData["res_getCateProduct"] = cateProduct;
+            var typeProduct = _typeProductDataAcessor.GetTypeProduct();
+            ViewData["res_getTypeProduct_"] = typeProduct;
+            foreach (var cate in cateProduct)
+            {
+                ViewData["res_getProduct_" + cate.Id] = _productDataAcessor.GetProductByCategory(cate.Id);
+            }
+            ViewData["res_statusHomePage"] = "disible";
+            ViewData["id_cateChose"] = 0;
+            ViewData["id_typeChose"] = 0;
+            ViewData["res_statusAdmin"] = "visible";
+
+            var User = SessionFunction.GetUser(HttpContext.Session);
+            if (HttpContext.User.Identity.IsAuthenticated && User.CheckLevel())
+            {
+                return View();
+            }
+
+            return Redirect("/");
+        }
+        [HttpPost]
+        public IActionResult AddProductToDB()
+        {
+            return null;
+        }
+            }
 }

@@ -28,6 +28,11 @@ namespace NetProject.DbAccessor
                 return new List<TypeProduct>();
             }
         }
+
+        internal object GetTypeProduct()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 
