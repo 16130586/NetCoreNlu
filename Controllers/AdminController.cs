@@ -73,12 +73,13 @@ namespace NetProject.Controllers
                 Active = 1,
                 IdCategory = entry.Select_nameCate,
                 ImageType = url
-            }) ;
+            });
             SessionFunction.SetString(HttpContext.Session, "mes_err", "Thêm thành công");
             return Redirect("AddType");
         }
         [HttpGet]
-        public IActionResult AdminEditType([FromQuery(Name = "id_type")] int id_type) {
+        public IActionResult AdminEditType([FromQuery(Name = "id_type")] int id_type)
+        {
             var cateProduct = _categoryDataAcessor.GetCategoryProduct();
             ViewData["res_getCateProduct"] = cateProduct;
             foreach (var cate in cateProduct)
@@ -119,14 +120,15 @@ namespace NetProject.Controllers
                 Active = entry.Select_Status,
                 IdCategory = entry.Select_nameCate,
                 ImageType = url
-              
+
             });
             SessionFunction.SetString(HttpContext.Session, "mes_err", "Sửa thành công");
             return Redirect("AdminListType");
         }
 
         [HttpGet]
-        public IActionResult AdminListType() {
+        public IActionResult AdminListType()
+        {
             var cateProduct = _categoryDataAcessor.GetCategoryProduct();
             ViewData["res_getCateProduct"] = cateProduct;
             foreach (var cate in cateProduct)
@@ -142,7 +144,8 @@ namespace NetProject.Controllers
             {
                 var typeProducts = _typeProductDataAcessor.GetAll();
                 var categories = _categoryDataAcessor.getAll();
-                var result = typeProducts.Join(categories , tp => tp.IdCategory , ct => ct.Id , (tp , ct) => new TypeProduct{
+                var result = typeProducts.Join(categories, tp => tp.IdCategory, ct => ct.Id, (tp, ct) => new TypeProduct
+                {
                     NameType = tp.NameType,
                     ImageType = tp.ImageType,
                     Id = tp.Id,
@@ -157,12 +160,40 @@ namespace NetProject.Controllers
 
             return Redirect("/");
         }
-
         [HttpGet]
         public IActionResult DeleteTypeToDB([FromQuery(Name = "id_type")] int id_type)
         {
             _typeProductDataAcessor.Delete(id_type);
             return Redirect("AdminListType");
+        }
+        [HttpGet]
+        public IActionResult AddProduct()
+        {
+            var cateProduct = _categoryDataAcessor.GetCategoryProduct();
+            ViewData["res_getCateProduct"] = cateProduct;
+            var typeProduct = _typeProductDataAcessor.GetTypeProduct();
+            ViewData["res_getTypeProduct_"] = typeProduct;
+            foreach (var cate in cateProduct)
+            {
+                ViewData["res_getProduct_" + cate.Id] = _productDataAcessor.GetProductByCategory(cate.Id);
+            }
+            ViewData["res_statusHomePage"] = "disible";
+            ViewData["id_cateChose"] = 0;
+            ViewData["id_typeChose"] = 0;
+            ViewData["res_statusAdmin"] = "visible";
+
+            var User = SessionFunction.GetUser(HttpContext.Session);
+            if (HttpContext.User.Identity.IsAuthenticated && User.CheckLevel())
+            {
+                return View();
+            }
+
+            return Redirect("/");
+        }
+        [HttpPost]
+        public IActionResult AddProductToDB()
+        {
+            return null;
         }
     }
 }

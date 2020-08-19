@@ -18,10 +18,11 @@ namespace NetProject.DbAccessor
             _context.TypeProducts.Add(typeProduct);
             _context.SaveChanges();
         }
-        public List<TypeProduct> GetTypeProduct(int idCate) {
+        public List<TypeProduct> GetTypeProduct(int idCate)
+        {
             try
             {
-                return _context.TypeProducts.Where(tpd => tpd.Active == 1 && tpd.IdCategory == idCate) .ToList();
+                return _context.TypeProducts.Where(tpd => tpd.Active == 1 && tpd.IdCategory == idCate).ToList();
             }
             catch (Exception e)
             {
@@ -29,7 +30,8 @@ namespace NetProject.DbAccessor
                 return new List<TypeProduct>();
             }
         }
-        public TypeProduct GetTypeProductById(int id) {
+        public TypeProduct GetTypeProductById(int id)
+        {
             try
             {
                 return _context.TypeProducts.Where(tpd => tpd.Id == id).FirstOrDefault();
@@ -67,16 +69,24 @@ namespace NetProject.DbAccessor
 
         public bool Delete(int id_type)
         {
-            try {
+            try
+            {
                 var requested = GetTypeProductById(id_type);
                 _context.TypeProducts.Remove(requested);
                 _context.SaveChanges();
                 return true;
             }
-            catch {
+            catch
+            {
                 return false;
             }
+
+
         }
+        internal object GetTypeProduct()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
-
