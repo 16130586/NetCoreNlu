@@ -12,7 +12,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NetProject.Context;
+using NetProject.DataAccessor;
 using NetProject.DbAccessor;
+using NetProject.Util;
 
 namespace NetProject
 {
@@ -28,7 +30,6 @@ namespace NetProject
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-           
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
@@ -47,8 +48,8 @@ namespace NetProject
                 options.IdleTimeout = TimeSpan.FromDays(10);
                 options.Cookie.IsEssential = true;
             });
-           
 
+            services.AddSingleton<FileData, FileData>();
             services.AddScoped<SliderData, SliderData>();
             services.AddScoped<UserData, UserData>();
             services.AddScoped<TypeProductData, TypeProductData>();

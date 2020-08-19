@@ -28,5 +28,10 @@ namespace NetProject.DbAccessor
                 return new List<Category>();
             }
         }
+
+        public  IEnumerable<Category> getAll()
+        {
+            return _context.Categories.ToList();
+        }
     }
 }

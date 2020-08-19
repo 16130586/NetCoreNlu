@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,6 +11,8 @@ namespace NetProject.Models
         public int Id { get; set; }
         public int IdCategory { get; set; }
         public string NameType { get; set; }
+        [NotMapped]
+        public string CategoryName { get; set; }
         public string ImageType { get; set; }
         public int Active { get; set; }
 

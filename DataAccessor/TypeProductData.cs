@@ -1,4 +1,5 @@
-﻿using NetProject.Context;
+﻿using Microsoft.VisualBasic;
+using NetProject.Context;
 using NetProject.Models;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,54 @@ namespace NetProject.DbAccessor
             {
                 Console.WriteLine(e.Message);
                 return new List<TypeProduct>();
+            }
+        }
+        public TypeProduct GetTypeProductById(int id) {
+            try
+            {
+                return _context.TypeProducts.Where(tpd => tpd.Id == id).FirstOrDefault();
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        public bool UpdateType(TypeProduct typeProduct)
+        {
+            try
+            {
+                var requested = GetTypeProductById(typeProduct.Id);
+                if (requested == null) return false;
+                requested.Id = typeProduct.Id;
+                requested.Active = typeProduct.Active;
+                requested.IdCategory = typeProduct.IdCategory;
+                requested.NameType = typeProduct.NameType;
+                requested.ImageType = typeProduct.ImageType;
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public IEnumerable<TypeProduct> GetAll()
+        {
+            return _context.TypeProducts.ToList();
+        }
+
+        public bool Delete(int id_type)
+        {
+            try {
+                var requested = GetTypeProductById(id_type);
+                _context.TypeProducts.Remove(requested);
+                _context.SaveChanges();
+                return true;
+            }
+            catch {
+                return false;
             }
         }
     }

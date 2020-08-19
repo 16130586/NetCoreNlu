@@ -1,0 +1,83 @@
+﻿@{
+    Layout = "_MasterLayout";
+    var res_getCateProduct = ViewData["res_getCateProduct"] as List<Category>;
+    var res_TypeEdit = ViewData["res_TypeEdit"] != null ? (TypeProduct)ViewData["res_TypeEdit"] : null;
+    var idParams = new Dictionary<string, string>
+    {
+        {  "id_type" , res_TypeEdit.Id.ToString()}
+    };
+}
+<section id="section_contentAdmin">
+    <div class="container_admin">
+        <div class="row box_row p-3">
+            @await Html.PartialAsync("../Shared/_DashboardAdminPage.cshtml");
+
+            <div class="col-md-10 bg bg-light">
+                <h2 class="mb-5">Loại  <small>sửa</small></h2>
+               
+                <form asp-controller="Admin" asp-action="AdminEditTypeToDB" method="post"  enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input name="id_type" value="@res_TypeEdit.Id" type="hidden"/>
+                        <label for="select_nameCate">Danh mục:</label>
+                        <select class="form-control bg bg-secondary text-light w-50" id="select_nameCate" name="select_nameCate">
+                            <option value="0">--Hãy chọn--</option>
+                            @{
+
+                                foreach (var cate in res_getCateProduct)
+                                {
+                                    if (res_TypeEdit.IdCategory == cate.Id)
+                                    {
+                                        <option value="@cate.Id" selected>@cate.NameCategory</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@cate.Id">@cate.NameCategory</option>
+                                    }
+
+                                }
+                            }
+                        </select><br>
+                        <label for="name_type">Tên loại:</label>
+                        <input type="text" class="form-control w-50" id="name_type" placeholder="Nhập tên loại" value="@res_TypeEdit.NameType" name="name_type"><br>
+                        <label for="image_type">Hình loại:</label>
+                        <p>
+                            <img height="100" class="img-thumbnail" id="output" src="@res_TypeEdit.ImageType">
+                        </p>
+                        <input value="@res_TypeEdit.ImageType" name="image_type_old" style="display: none">
+                        <input type="file" name="image_type" id="image_type" class="form-control-file border w-50" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])"><br>
+                    </div>
+                    <label for="select_Status">Trạng thái:</label>
+                    <select class="form-control bg bg-secondary text-light w-25" id="select_Status" name="select_Status">
+                        @if (res_TypeEdit.Active == 1)
+                        {
+                            <option value="1" selected>Hoạt động</option>
+                            <option value="0">Không hoạt động</option>
+                        }
+                        else
+                        {
+                            <option value="0" selected>Không hoạt động</option>
+                            <option value="1">Hoạt động</option>
+                        }
+                    </select><br>
+                    <button type="submit" onclick="validateForm()" class="btn btn-primary">Lưu</button>
+                    <a asp-controller="Admin" asp-action="AdminEditType" asp-all-route-data="idParams" class="btn btn-danger">Hủy</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function validateForm() {
+
+        if (document.getElementById('select_nameCate').value == 0) {
+            alert("Vui lòng chọn mục này");
+            document.getElementById('select_nameCate').style.border = "1px solid red"
+            event.preventDefault();
+            return false;
+        }
+
+
+        return true;
+    }
+</script>
