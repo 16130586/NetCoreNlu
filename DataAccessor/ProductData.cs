@@ -69,5 +69,68 @@ namespace NetProject.DbAccessor
                 return new List<Product>();
             }
         }
+        public Product GetProductById(int id)
+        {
+            try
+            {
+                return _context.Products.Where(tpd => tpd.Id == id).FirstOrDefault();
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+        public bool UpdateProduct(Product product)
+        {
+            try
+            {
+                var requested = GetProductById(product.Id);
+                if (requested == null) return false;
+                requested.Id = product.Id;
+                requested.Active = product.Active;
+                requested.IdCategory = product.IdCategory;
+                requested.IdType = product.IdType;
+                requested.NameProduct = product.NameProduct;
+                requested.ImageProduct = product.ImageProduct;
+                requested.ImageDetailProduct = product.ImageDetailProduct;
+                requested.Internal_Memory = product.Internal_Memory;
+                requested.Memory_Stick = product.Memory_Stick;
+                requested.Operating_System = product.Operating_System;
+                requested.RAM = product.RAM;
+                requested.Screen = product.Screen;
+                requested.Sim_Stick = product.Sim_Stick;
+                requested.Back_Camera = product.Back_Camera;
+                requested.Front_Camera = product.Front_Camera;
+                requested.CPU = product.CPU;
+                requested.Battery_Capacity = product.Battery_Capacity;
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+        public IEnumerable<Product> GetAll()
+        {
+            return _context.Products.ToList();
+        }
+
+        public bool Delete(int id_product)
+        {
+            try
+            {
+                var requested = GetProductById(id_product);
+                _context.Products.Remove(requested);
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+
+        }
     }
 }

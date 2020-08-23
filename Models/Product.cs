@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -35,6 +36,17 @@ namespace NetProject.Models
         public int Active { get; set; }
 
         public string CategoryName { get; set; }
+        public string Internal_Memory { get; set; }
+        public int IdCategory { get; set; }
+        public string Screen { get; set; }
+        public string Operating_System { get; set; }
+        public string Back_Camera { get; set; }
+        public string Front_Camera { get; set; }
+        public string CPU { get; set; }
+        public string RAM { get; set; }
+        public string Memory_Stick { get; set; }
+        public string Sim_Stick { get; set; }
+        public string Battery_Capacity { get; set; }
 
     }
 }
