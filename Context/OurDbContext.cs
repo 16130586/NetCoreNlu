@@ -24,7 +24,7 @@ namespace NetProject.Context
         {
             modelBuilder.Entity<Comment>().ToTable("comment");
             modelBuilder.Entity<Product>().ToTable("product");
-            modelBuilder.Entity<TypeProduct>().ToTable("type");
+            modelBuilder.Entity<TypeProduct>().Ignore(tp => tp.CategoryName).ToTable("type");
             modelBuilder.Entity<Category>().ToTable("category");
             modelBuilder.Entity<Slider>().ToTable("slide");
             modelBuilder.Entity<BillDetail>().ToTable("bill_detail");

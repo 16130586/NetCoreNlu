@@ -11,7 +11,6 @@ namespace NetProject.Models
         public int Id { get; set; }
         public int IdCategory { get; set; }
         public string NameType { get; set; }
-        [NotMapped]
         public string CategoryName { get; set; }
         public string ImageType { get; set; }
         public int Active { get; set; }

@@ -1,0 +1,42 @@
+﻿@{
+    Layout = "_MasterLayout";
+    var res_getCateProduct = ViewData["res_getCateProduct"] as List<Category>;
+    Category res_CateEdit = ViewData["res_CateEdit"] as Category;
+}
+<section id="section_contentAdmin">
+    <div class="container_admin">
+        <div class="row box_row p-3">
+            @await Html.PartialAsync("../Shared/_DashboardAdminPage.cshtml");
+
+            <div class="col-md-10 bg bg-light">
+                <h2 class="mb-5">Danh mục  <small>sửa</small></h2>
+                <form action="/Admin/UpdateCateToDB" method="post">
+                    <div class="form-group">
+                        <input name="id_cate" value="@res_CateEdit.Id" type="hidden" />
+                        <label for="name_cate">Tên danh mục:</label>
+                        <input name="name_cate" type="text" class="form-control w-25" id="name_cate" placeholder="Nhập tên danh mục" value="@res_CateEdit.NameCategory"><br>
+                        <label for="icon_cate">Icon danh mục:</label>
+                        <input name="icon_cate" type="text" class="form-control w-25" id="icon_cate" placeholder="Nhập icon của danh mục" value="@res_CateEdit.IconCategory"><br>
+                    </div>
+
+                    <label for="select_Status">Trạng thái:</label>
+                    <select name="select_Status" class="form-control bg bg-secondary text-light w-25" id="select_Status">
+                        @if (res_CateEdit.Active == 1)
+                        {
+                            <option value="1" selected>Hoạt động</option>
+                            <option value="0">Không hoạt động</option>
+                        }
+                        else
+                        {
+                            <option value="0" selected>Không hoạt động</option>
+                            <option value="1">Hoạt động</option>
+                        }
+                    </select><br>
+                    <button type="submit" class="btn btn-primary">Lưu</button>
+                    <a href="/Admin/AdminListCate" class="btn btn-danger">Hủy</a>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

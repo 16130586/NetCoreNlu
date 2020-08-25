@@ -37,7 +37,7 @@ namespace NetProject.Controllers
             ViewData["relatedProduct"] = _productDataAcessor.GetProductByCategory(1);
             
            
-            var cateProduct = _categoryDataAcessor.GetCategoryProduct();
+            var cateProduct = _categoryDataAcessor.GetActiveCategoryProduct();
             ViewData["res_getCateProduct"] = cateProduct;
             foreach (var cate in cateProduct)
             {
