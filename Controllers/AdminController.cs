@@ -303,9 +303,148 @@ namespace NetProject.Controllers
             return Redirect("/");
         }
         [HttpPost]
-        public IActionResult AddProductToDB()
+        public IActionResult AddProductToDB([FromForm] AddProductParams entry)
         {
-            return null;
+            if (string.IsNullOrEmpty(entry.Name_Product)) entry.Name_Product = "";
+            var url = "";
+            if (entry.Image_product != null)
+            {
+
+                url = _fileData.Save(entry.Image_product);
+            }
+            _productDataAcessor.AddProduct(new Models.Product
+            {
+                NameProduct = entry.Name_Product,
+                Active= 1,
+                IdCategory = entry.Select_nameCate,
+                IdType = entry.Select_nameType,
+                ImageProduct = url,
+                ImageDetailProduct = url,
+                Quantity = entry.Quantity_Product,
+                PricePromotion = entry.Price_Product,
+                Screen = entry.Screen,
+                Operating_System = entry.Operating_System,
+                Back_Camera = entry.Back_Camera,
+                Front_Camera = entry.Front_Camera,
+                CPU = entry.CPU,
+                RAM = entry.RAM,
+                Memory_Stick = entry.Memory_Stick,
+                Sim_Stick = entry.Sim_Stick,
+                Battery_Capacity = entry.Battery_Capacity
+               
+            });
+            SessionFunction.SetString(HttpContext.Session, "mes_err", "Thêm thành công");
+            return Redirect("AddProduct");
+        }
+        public IActionResult AdminEditProduct([FromQuery(Name = "id_product")]int id_product)
+        {
+            var cateProduct = _categoryDataAcessor.GetCategoryProduct();
+            ViewData["res_getCateProduct"] = cateProduct;
+            var typeProduct = _typeProductDataAcessor.GetTypeProduct();
+            ViewData["res_getTypeProduct_"] = typeProduct;
+            foreach (var cate in cateProduct)
+            {
+                ViewData["res_getProduct_" + cate.Id] = _productDataAcessor.GetProductByCategory(cate.Id);
+            }
+            ViewData["res_statusHomePage"] = "disible";
+            ViewData["id_cateChose"] = 0;
+            ViewData["id_typeChose"] = 0;
+            ViewData["res_statusAdmin"] = "visible";
+
+            var User = SessionFunction.GetUser(HttpContext.Session);
+            if (HttpContext.User.Identity.IsAuthenticated && User.CheckLevel())
+            {
+                return View();
+            }
+
+            return Redirect("/");
+        
+    }
+        [HttpPost]
+        public IActionResult AdminEditProductToDB([FromForm] UpdateProductParams entry)
+        {
+
+            if (string.IsNullOrEmpty(entry.Name_Product)) entry.Name_Product = "";
+
+            var url = entry.Image_product_old;
+            if (entry.Image_product != null)
+            {
+
+                url = _fileData.Save(entry.Image_product);
+            }
+            _productDataAcessor.UpdateProduct(new Models.Product
+            {
+                NameProduct = entry.Name_Product,
+                Active = 1,
+                IdCategory = entry.Select_nameCate,
+                IdType = entry.Select_nameType,
+                ImageProduct = url,
+                ImageDetailProduct = url,
+                Quantity = entry.Quantity_Product,
+                PricePromotion = entry.Price_Product,
+                Screen = entry.Screen,
+                Operating_System = entry.Operating_System,
+                Back_Camera = entry.Back_Camera,
+                Front_Camera = entry.Front_Camera,
+                CPU = entry.CPU,
+                RAM = entry.RAM,
+                Memory_Stick = entry.Memory_Stick,
+                Sim_Stick = entry.Sim_Stick,
+                Battery_Capacity = entry.Battery_Capacity
+            });
+            SessionFunction.SetString(HttpContext.Session, "mes_err", "Sửa thành công");
+            return Redirect("AdminListProduct");
+        }
+        [HttpGet]
+        public IActionResult AdminListProduct()
+        {
+            var cateProduct = _categoryDataAcessor.GetCategoryProduct();
+            ViewData["res_getCateProduct"] = cateProduct;
+            var typeProduct = _typeProductDataAcessor.GetTypeProduct();
+            ViewData["res_getTypeProduct_"] = typeProduct;
+            foreach (var cate in cateProduct)
+            {
+                ViewData["res_getProduct_" + cate.Id] = _productDataAcessor.GetProductByCategory(cate.Id);
+            }
+            ViewData["res_statusHomePage"] = "disible";
+            ViewData["id_cateChose"] = 0;
+            ViewData["id_typeChose"] = 0;
+            ViewData["res_statusAdmin"] = "visible";
+
+            var User = SessionFunction.GetUser(HttpContext.Session);
+            if (HttpContext.User.Identity.IsAuthenticated && User.CheckLevel())
+            {
+                var products = _productDataAcessor.GetAll();
+                var categories = _categoryDataAcessor.getAll();
+                var result =products.Join(categories, tp => tp.IdCategory, ct => ct.Id, (tp, ct) => new Product
+                {
+                    NameProduct = tp.NameProduct,
+                    ImageProduct = tp.ImageProduct,
+                    Id = tp.Id,
+                    CategoryName = ct.NameCategory,
+                    Active = tp.Active,
+                    ImageDetailProduct = tp.ImageProduct,
+                    Quantity = tp.Quantity,
+                    PricePromotion = tp.PricePromotion,
+                    Screen = tp.Screen,
+                    Operating_System = tp.Operating_System,
+                    Back_Camera = tp.Back_Camera,
+                    Front_Camera = tp.Front_Camera,
+                    CPU = tp.CPU,
+                    RAM = tp.RAM,
+                    Memory_Stick = tp.Memory_Stick,
+                    Sim_Stick = tp.Sim_Stick,
+                    Battery_Capacity = tp.Battery_Capacity
+                }).OrderBy(rs => rs.Id).ToList();
+
+                if (result == null) return NotFound();
+                ViewData["res_listProduct"] = result;
+                return View();
+            }
+
+            return Redirect("/");
         }
     }
-}
+
+    }
+

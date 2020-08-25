@@ -1,0 +1,159 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_MasterLayout";
+    var res_getCateProduct = ViewData["res_getCateProduct"] as List<Category>;
+    var res_getTypeProduct = ViewData["res_getTypeProduct_"] as List<TypeProduct>;
+    var res_ProductEdit = ViewData["res_ProductEdit"] != null ? (Product)ViewData["res_productEdit"] : null;
+    var idParams = new Dictionary<string, string>
+{
+        {  "id_product" , res_ProductEdit.Id.ToString()}
+    };
+}
+<section id="section_contentAdmin">
+    <div class="container_admin">
+        <div class="row box_row p-3">
+            @await Html.PartialAsync("../Shared/_DashboardAdminPage.cshtml");
+
+            <div class="col-md-10 bg bg-light">
+                <h2 class="mb-5">Sản Phẩm  <small>sửa</small></h2>
+
+                <form asp-controller="Admin" asp-action="AdminEditTypeToDB" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input name="id_product" value="@res_ProductEdit.Id" type="hidden" />
+                        <label for="select_nameCate">Danh mục:</label>
+                        <select class="form-control bg bg-secondary text-light w-50" id="select_nameCate" name="select_nameCate">
+                            <option value="0">--Hãy chọn--</option>
+                            @{
+
+                                foreach (var cate in res_getCateProduct)
+                                {
+                                    if (res_ProductEdit.IdCategory == cate.Id)
+                                    {
+                                        <option value="@cate.Id" selected>@cate.NameCategory</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@cate.Id">@cate.NameCategory</option>
+                                    }
+
+                                }
+                            }
+                        </select><br>
+                        <label for=" select_nameType"> Loại:</label>
+                        <select class="form-control bg bg-secondary text-light w-50" id="select_nameType" name="select_nameType">
+                            <option value="0">--Hãy Chọn--</option>
+                            @{
+                                foreach (var type in res_getTypeProduct)
+                                {
+                                    <option value="@type.Id">@type.NameType</option>
+                                }
+                            }
+                        </select><br>
+                        <label for="name_product">Tên sản phẩm:</label>
+                        <input type="text" class="form-control w-50" id="name_product" placeholder="Nhập tên sản phẩm" value="@res_ProductEdit.NameProduct" name="name_product"><br>
+                        <label for="image_product">Hình loại:</label>
+                        <p>
+                            <img height="100" class="img-thumbnail" id="output" src="@res_ProductEdit.ImageProduct">
+                        </p>
+                        <input value="@res_ProductEdit.ImageProduct" name="image_product_old" style="display: none">
+                        <input type="file" name="image_product" id="image_product" class="form-control-file border w-50" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])"><br>
+                    </div>
+                    <label for="qty_product">Số lượng:</label>
+                    <input type="text" class="form-control w-25" id="qty_product" placeholder="Nhập tên sản phẩm" value="@res_ProductEdit.Quantity" name="qty_product"><br>
+                    <label for="price_product">Giá bán:</label>
+                    <input type="text" class="form-control w-25" id="price_product" placeholder="Nhập giá sản phẩm" value="@res_ProductEdit.PricePromotion" name="price_product"><br>
+                    <label for="name_product">Thông số kỹ thuật:</label>
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr>
+                                <td><label for="screen">Màn hình:</label></td>
+                                <td> <input type="text" class="form-control" id="screen" placeholder="Nhập thông số màn hình" value="@res_ProductEdit.Screen" name="screen"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="operating_system">Hệ điều hành:</label></td>
+                                <td> <input type="text" class="form-control" id="operating_system" placeholder="Nhập thông số hệ điều hành" value="@res_ProductEdit.Operating_System" name="operating_system"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="back_camera">Camera sau:</label></td>
+                                <td> <input type="text" class="form-control" id="back_camera" placeholder="Nhập thông số camera sau" value="@res_ProductEdit.Back_Camera" name="back_camera"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="front_camera">Camera trước:</label></td>
+                                <td> <input type="text" class="form-control" id="front_camera" placeholder="Nhập thông số camera trước" value="@res_ProductEdit.Front_Camera" name="front_camera"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="cpu">CPU:</label></td>
+                                <td> <input type="text" class="form-control" id="cpu" placeholder="Nhập thông số CPU" value="@res_ProductEdit.CPU" name="cpu"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="ram">RAM:</label></td>
+                                <td> <input type="text" class="form-control" id="ram" placeholder="Nhập thông số RAM" value="@res_ProductEdit.RAM" name="ram"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="internal_memory">Bộ nhớ trong:</label></td>
+                                <td> <input type="text" class="form-control" id="internal_memory" placeholder="Nhập thông số bộ nhớ trong" value="@res_ProductEdit.Internal_Memory" name="internal_memory"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="memory_stick">Thẻ nhớ:</label></td>
+                                <td> <input type="text" class="form-control" id="memory_stick" placeholder="Nhập thông số thẻ nhớ" value="@res_ProductEdit.Memory_Stick" name="memory_stick"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="sim_stick">Thẻ SIM:</label></td>
+                                <td> <input type="text" class="form-control" id="sim_stick" placeholder="Nhập thông số thẻ sim" value="@res_ProductEdit.Sim_Stick" name="sim_stick"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="battery_capacity">Dung lượng pin:</label></td>
+                                <td> <input type="text" class="form-control" id="battery_capacity" placeholder="Nhập thông số dung lượng pin" value="@res_ProductEdit.Battery_Capacity" name="battery_capacity"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+
+
+                    <label for="select_Status">Trạng thái:</label>
+                    <select class="form-control bg bg-secondary text-light w-25" id="select_Status" name="select_Status">
+                        @if (res_ProductEdit.Active == 1)
+                        {
+                            <option value="1" selected>Còn </option>
+                            <option value="0">Hết</option>
+                        }
+                        else
+                        {
+                            <option value="0" selected>Hết</option>
+                            <option value="1">Còn</option>
+                        }
+                    </select><br>
+                    <button type="submit" onclick="validateForm()" class="btn btn-primary">Lưu</button>
+                    <a asp-controller="Admin" asp-action="AdminEditProduct" asp-all-route-data="idParams" class="btn btn-danger">Hủy</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function validateForm() {
+
+        if (document.getElementById('select_nameCate').value == 0) {
+            alert("Vui lòng chọn mục này");
+            document.getElementById('select_nameCate').style.border = "1px solid red"
+            event.preventDefault();
+            return false;
+        }
+
+
+        return true;
+        if (document.getElementById('select_nameType').value == 0) {
+            alert("Vui lòng chọn mục này");
+            document.getElementById('select_nameType').style.border = "1px solid red"
+            event.preventDefault();
+            return false;
+        }
+
+
+        return true;
+    }
+</script>

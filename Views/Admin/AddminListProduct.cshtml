@@ -1,0 +1,64 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_MasterLayout";
+    var res_getCateProduct = ViewData["res_getCateProduct"] as List<Category>;
+    var res_getTypeProduct = ViewData["res_getTypeProduct_"] as List<TypeProduct>;
+    List<Product> res_listProduct = ViewData["res_listProduct"] as List<Product>;
+}
+<section id="section_contentAdmin">
+    <div class="container_admin">
+        <div class="row box_row p-3">
+            @await Html.PartialAsync("../Shared/_DashboardAdminPage.cshtml");
+
+            <div class="col-md-10 bg bg-light">
+                <h2 class="mb-5">Sản Phẩm <small>danh sách</small></h2>
+                <table id="example" class="table table-striped table-bordered" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên danh mục</th>
+                            <th>Tên loại</th>
+                            <th>Tên Sản Phẩm</th>
+                            <th>Ảnh</th>
+                            <th>Giá niêm yết</th>
+                            <th>Giá khuyến mãi</th>
+                            <th>Trạng thái</th>
+                            <th>Tác vụ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            for (var i = 0; i < res_listProduct.Count; i++)
+                            {
+                                var textState = res_listProduct[i].Active == 1 ? "text-sucess" : "text-danger";
+                                                <tr>
+                                                    <td>@(i+1)</td>
+                                                    <td>@res_listProduct[i].CategoryName</td>
+                                                    <td>@res_listProduct[i].IdType</td>
+                                                    <td>@res_listProduct[i].NameProduct</td>
+                                                    <td><img src="@res_listProduct[i].ImageProduct"></td>
+
+                                                    <td>@res_listProduct[i].PriceListed</td>
+                                                    <td>@res_listProduct[i].PricePromotion</td>
+                                                    <td><i class="fas fa-check @textState s-25"></i></td>
+                                                    <td>
+                                                        <a href="/Admin/AdminEditProduct?id_type=@res_listProduct[i].Id"><i class="fas fa-edit s-25 mr-1" title="Sửa"></i></a>
+                                                        <a href="/Admin/DeleteProductToDB?id_type=@res_listProduct[i].Id"><i class="fas fa-trash-alt s-25 text-danger" title="Xóa"></i></a>
+                                                    </td>
+                                                </tr>
+
+                            }
+                        }
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
+
+</script>

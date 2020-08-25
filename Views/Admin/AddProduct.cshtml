@@ -13,7 +13,7 @@
 
             <div class="col-md-10 bg bg-light">
                 <h2 class="mb-5">Loại  <small>thêm</small></h2>
-                <form asp-controller="Admin" asp-action="AddProduct" method="post">
+                <form asp-controller="Admin" asp-action="AddProductToDB" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="select_nameCate">Danh mục:</label>
                         <select class="form-control bg bg-secondary text-light w-50" id="select_nameCate" name="select_nameCate">
@@ -37,7 +37,7 @@
                                 }
                             }
                         </select><br>
-                        <label for="name_type">Tên sản phẩm:</label>
+                        <label for="name_product">Tên sản phẩm:</label>
                         <input type="text" required class="form-control w-50" id="name_product" placeholder="Nhập tên sản phẩm" name="name_product"><br>
 
                         <label for="image_product">Hình sản phẩm:</label>
