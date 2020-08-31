@@ -83,9 +83,10 @@ namespace NetProject.DbAccessor
 
 
         }
-        internal object GetTypeProduct()
+        public List<TypeProduct> GetTypeProduct()
         {
-            throw new NotImplementedException();
+            var rs = _context.TypeProducts.Where(tp => tp.Active > 0).ToList();
+            return  rs == null ? new List<TypeProduct>() : rs;
         }
 
     }

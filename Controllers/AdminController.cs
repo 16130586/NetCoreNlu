@@ -219,7 +219,7 @@ namespace NetProject.Controllers
             var update = new Category
             {
                 NameCategory = entry.name_cate,
-                Active =entry.select_Status,
+                Active = entry.select_Status,
                 Id = entry.id_cate,
                 IconCategory = entry.icon_cate
             };
@@ -257,14 +257,15 @@ namespace NetProject.Controllers
             return Redirect("AdminListCate");
         }
         [HttpPost]
-        public IActionResult AddCateToDB(AddCateParams entry) {
+        public IActionResult AddCateToDB(AddCateParams entry)
+        {
 
             if (string.IsNullOrEmpty(entry.Icon_cate)) entry.Icon_cate = "";
             if (string.IsNullOrEmpty(entry.Name_cate)) entry.Name_cate = "";
 
             _categoryDataAcessor.AddCategory(new Category
             {
-                Active = 1 , 
+                Active = 1,
                 IconCategory = entry.Icon_cate,
                 NameCategory = entry.Name_cate
             });
@@ -279,11 +280,21 @@ namespace NetProject.Controllers
             return Redirect("AdminListType");
         }
         [HttpGet]
-        public IActionResult AddProduct()
+
+
+        /*-------------------------------------------admin product add - edit - list------------------------------*/
+
+        public IActionResult AdminAddProduct()
         {
             var cateProduct = _categoryDataAcessor.GetActiveCategoryProduct();
             ViewData["res_getCateProduct"] = cateProduct;
             var typeProduct = _typeProductDataAcessor.GetTypeProduct();
+
+            foreach (var cate in cateProduct)
+            {
+                ViewData["res_getTypeProduct_" + cate.Id] = _typeProductDataAcessor.GetTypeProduct(cate.Id);
+            }
+
             ViewData["res_getTypeProduct_"] = typeProduct;
             foreach (var cate in cateProduct)
             {
@@ -312,33 +323,37 @@ namespace NetProject.Controllers
 
                 url = _fileData.Save(entry.Image_product);
             }
-            _productDataAcessor.AddProduct(new Models.Product
+            _productDataAcessor.AdminAddProduct(new Models.Product
             {
                 NameProduct = entry.Name_Product,
-                Active= 1,
+                Active = 1,
                 IdCategory = entry.Select_nameCate,
-                IdType = entry.Select_nameType,
+                NameType = entry.Select_nameType,
                 ImageProduct = url,
                 ImageDetailProduct = url,
                 Quantity = entry.Quantity_Product,
+                PriceListed = entry.Price_listed,
                 PricePromotion = entry.Price_Product,
                 Screen = entry.Screen,
                 Operating_System = entry.Operating_System,
                 Back_Camera = entry.Back_Camera,
                 Front_Camera = entry.Front_Camera,
                 CPU = entry.CPU,
+                Internal_Memory = entry.Internal_Memory,
                 RAM = entry.RAM,
                 Memory_Stick = entry.Memory_Stick,
                 Sim_Stick = entry.Sim_Stick,
                 Battery_Capacity = entry.Battery_Capacity
-               
+
             });
             SessionFunction.SetString(HttpContext.Session, "mes_err", "Thêm thành công");
-            return Redirect("AddProduct");
+            return Redirect("AdminAddProduct");
         }
-        public IActionResult AdminEditProduct([FromQuery(Name = "id_product")]int id_product)
+
+        [HttpGet]
+        public IActionResult AdminEditProduct([FromQuery(Name = "id_product")] int id_product)
         {
-            var cateProduct = _categoryDataAcessor.GetCategoryProduct();
+            var cateProduct = _categoryDataAcessor.GetActiveCategoryProduct();
             ViewData["res_getCateProduct"] = cateProduct;
             var typeProduct = _typeProductDataAcessor.GetTypeProduct();
             ViewData["res_getTypeProduct_"] = typeProduct;
@@ -346,6 +361,12 @@ namespace NetProject.Controllers
             {
                 ViewData["res_getProduct_" + cate.Id] = _productDataAcessor.GetProductByCategory(cate.Id);
             }
+
+            foreach (var cate in cateProduct)
+            {
+                ViewData["res_getTypeProduct_" + cate.Id] = _typeProductDataAcessor.GetTypeProduct(cate.Id);
+            }
+
             ViewData["res_statusHomePage"] = "disible";
             ViewData["id_cateChose"] = 0;
             ViewData["id_typeChose"] = 0;
@@ -354,12 +375,14 @@ namespace NetProject.Controllers
             var User = SessionFunction.GetUser(HttpContext.Session);
             if (HttpContext.User.Identity.IsAuthenticated && User.CheckLevel())
             {
+                var requestedProduct = _productDataAcessor.GetProductById(id_product);
+                ViewData["res_ProductEdit"] = requestedProduct;
                 return View();
             }
 
             return Redirect("/");
-        
-    }
+
+        }
         [HttpPost]
         public IActionResult AdminEditProductToDB([FromForm] UpdateProductParams entry)
         {
@@ -374,19 +397,22 @@ namespace NetProject.Controllers
             }
             _productDataAcessor.UpdateProduct(new Models.Product
             {
+                Id = entry.Id_Product,
                 NameProduct = entry.Name_Product,
-                Active = 1,
+                Active = entry.Select_Status,
                 IdCategory = entry.Select_nameCate,
-                IdType = entry.Select_nameType,
+                NameType = entry.Select_nameType,
                 ImageProduct = url,
                 ImageDetailProduct = url,
                 Quantity = entry.Quantity_Product,
+                PriceListed = entry.Price_listed,
                 PricePromotion = entry.Price_Product,
                 Screen = entry.Screen,
                 Operating_System = entry.Operating_System,
                 Back_Camera = entry.Back_Camera,
                 Front_Camera = entry.Front_Camera,
                 CPU = entry.CPU,
+                Internal_Memory = entry.Internal_Memory,
                 RAM = entry.RAM,
                 Memory_Stick = entry.Memory_Stick,
                 Sim_Stick = entry.Sim_Stick,
@@ -398,10 +424,16 @@ namespace NetProject.Controllers
         [HttpGet]
         public IActionResult AdminListProduct()
         {
-            var cateProduct = _categoryDataAcessor.GetCategoryProduct();
+            var cateProduct = _categoryDataAcessor.GetActiveCategoryProduct();
             ViewData["res_getCateProduct"] = cateProduct;
             var typeProduct = _typeProductDataAcessor.GetTypeProduct();
             ViewData["res_getTypeProduct_"] = typeProduct;
+
+            foreach (var cate in cateProduct)
+            {
+                ViewData["res_getTypeProduct_" + cate.Id] = _typeProductDataAcessor.GetTypeProduct(cate.Id);
+            }
+
             foreach (var cate in cateProduct)
             {
                 ViewData["res_getProduct_" + cate.Id] = _productDataAcessor.GetProductByCategory(cate.Id);
@@ -415,22 +447,25 @@ namespace NetProject.Controllers
             if (HttpContext.User.Identity.IsAuthenticated && User.CheckLevel())
             {
                 var products = _productDataAcessor.GetAll();
-                var categories = _categoryDataAcessor.getAll();
-                var result =products.Join(categories, tp => tp.IdCategory, ct => ct.Id, (tp, ct) => new Product
+                var categories = _categoryDataAcessor.GetALL();
+                var result = products.Join(categories, tp => tp.IdCategory, ct => ct.Id, (tp, ct) => new Product
                 {
                     NameProduct = tp.NameProduct,
                     ImageProduct = tp.ImageProduct,
                     Id = tp.Id,
+                    NameType = tp.NameType,
                     CategoryName = ct.NameCategory,
                     Active = tp.Active,
                     ImageDetailProduct = tp.ImageProduct,
                     Quantity = tp.Quantity,
+                    PriceListed = tp.PriceListed,
                     PricePromotion = tp.PricePromotion,
                     Screen = tp.Screen,
                     Operating_System = tp.Operating_System,
                     Back_Camera = tp.Back_Camera,
                     Front_Camera = tp.Front_Camera,
                     CPU = tp.CPU,
+                    Internal_Memory = tp.Internal_Memory,
                     RAM = tp.RAM,
                     Memory_Stick = tp.Memory_Stick,
                     Sim_Stick = tp.Sim_Stick,
@@ -444,7 +479,124 @@ namespace NetProject.Controllers
 
             return Redirect("/");
         }
-    }
+        [HttpGet]
+        public IActionResult DeleteProductToDB([FromQuery(Name = "id_product")] int id_product)
+        {
+            _productDataAcessor.Delete(id_product);
+            return Redirect("AdminListProduct");
+        }
+        /*-------------------------admin slider add - edit - list --------------------*/
+        [HttpGet]
+        public IActionResult AdminAddSlider()
+        {
+            var cateProduct = _categoryDataAcessor.GetActiveCategoryProduct();
+            ViewData["res_getCateProduct"] = cateProduct;
+            foreach (var cate in cateProduct)
+            {
+                ViewData["res_getTypeProduct_" + cate.Id] = _typeProductDataAcessor.GetTypeProduct(cate.Id);
+            }
+            ViewData["res_statusHomePage"] = "disible";
+            ViewData["id_cateChose"] = 0;
+            ViewData["res_statusAdmin"] = "visible";
 
+            var User = SessionFunction.GetUser(HttpContext.Session);
+            if (HttpContext.User.Identity.IsAuthenticated && User.CheckLevel())
+            {
+                return View();
+            }
+
+            return Redirect("/");
+        }
+        [HttpPost]
+        public IActionResult AddSliderToDB([FromForm]AddSliderParams entry)
+        {
+            var url = "";
+            if (entry.Image_slider != null)
+            {
+
+                url = _fileData.Save(entry.Image_slider);
+            }
+
+            _sliderDataAcessor.AddSlider(new Models.Slider
+            {
+                ImageSlider = url,
+                Active = 1, /*active = 1 */
+
+            });
+            SessionFunction.SetString(HttpContext.Session, "mes_err", "Thêm thành công");
+            return Redirect("AdminListSlider");
+        }
+        [HttpGet]
+        public IActionResult AdminEditSlider([FromQuery(Name = "id_slider")] int id_slider)
+        {
+            var cateProduct = _categoryDataAcessor.GetActiveCategoryProduct();
+            ViewData["res_getCateProduct"] = cateProduct;
+            foreach (var cate in cateProduct)
+            {
+                ViewData["res_getTypeProduct_" + cate.Id] = _typeProductDataAcessor.GetTypeProduct(cate.Id);
+            }
+            ViewData["res_statusHomePage"] = "disible";
+            ViewData["id_cateChose"] = 0;
+            ViewData["res_statusAdmin"] = "visible";
+
+            var User = SessionFunction.GetUser(HttpContext.Session);
+            if (HttpContext.User.Identity.IsAuthenticated && User.CheckLevel())
+            {
+                var requestedSlider = _sliderDataAcessor.GetSliderById(id_slider);
+                ViewData["res_SliderEdit"] = requestedSlider;
+                return View();
+            }
+
+            return Redirect("/");
+        }
+        [HttpPost]
+        public IActionResult AdminEditSliderToDB([FromForm] UpdateSliderParams entry)
+        {
+           var url = entry.Image_slider_old;
+            if (entry.Image_slider != null)
+            {
+
+                url = _fileData.Save(entry.Image_slider);
+            }
+            _sliderDataAcessor.UpdateSlider(new Models.Slider
+            {
+                Id = entry.Id_Slider,
+                ImageSlider = url,
+                Active = entry.Select_status,
+             });
+            SessionFunction.SetString(HttpContext.Session, "mes_err", "Sửa thành công");
+            return Redirect("AdminListSlider");
+        }
+        [HttpGet]
+        public IActionResult AdminListSlider()
+        {
+            var cateProduct = _categoryDataAcessor.GetActiveCategoryProduct();
+            ViewData["res_getCateProduct"] = cateProduct;
+            foreach (var cate in cateProduct)
+            {
+                ViewData["res_getTypeProduct_" + cate.Id] = _typeProductDataAcessor.GetTypeProduct(cate.Id);
+            }
+            ViewData["res_statusHomePage"] = "disible";
+            ViewData["id_cateChose"] = 0;
+            ViewData["res_statusAdmin"] = "visible";
+
+            var User = SessionFunction.GetUser(HttpContext.Session);
+            if (HttpContext.User.Identity.IsAuthenticated && User.CheckLevel())
+            {
+                var slider = _sliderDataAcessor.GetAll();
+                if (slider == null) return NotFound();
+                ViewData["res_listSlider"] = slider;
+                return View();
+            }
+
+            return Redirect("/");
+        }
+        [HttpGet]
+        public IActionResult DeleteSliderToDB([FromQuery(Name = "id_slider")] int id_slider)
+        {
+            _sliderDataAcessor.Delete(id_slider);
+            return Redirect("AdminListSlider");
+        }
     }
+}
 

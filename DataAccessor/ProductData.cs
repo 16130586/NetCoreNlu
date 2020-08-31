@@ -12,7 +12,7 @@ namespace NetProject.DbAccessor
         public ProductData(OurDbContext context) : base(context)
         {
         }
-        public void AddProduct(Product product)
+        public void AdminAddProduct(Product product)
         {
             _context.Products.Add(product);
             _context.SaveChanges();
@@ -53,6 +53,7 @@ namespace NetProject.DbAccessor
                         select new Product
                         {
                             Id = products.Id,
+                            NameType = products.NameType,
                             CategoryName = categories.NameCategory,
                             NameProduct = products.NameProduct,
                             ImageProduct = products.ImageProduct,
@@ -90,9 +91,13 @@ namespace NetProject.DbAccessor
                 requested.Active = product.Active;
                 requested.IdCategory = product.IdCategory;
                 requested.IdType = product.IdType;
+                requested.NameType = product.NameType;
                 requested.NameProduct = product.NameProduct;
                 requested.ImageProduct = product.ImageProduct;
                 requested.ImageDetailProduct = product.ImageDetailProduct;
+                requested.Quantity = product.Quantity;
+                requested.PriceListed = product.PriceListed;
+                requested.PricePromotion = product.PricePromotion;
                 requested.Internal_Memory = product.Internal_Memory;
                 requested.Memory_Stick = product.Memory_Stick;
                 requested.Operating_System = product.Operating_System;
@@ -108,6 +113,7 @@ namespace NetProject.DbAccessor
             }
             catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 return false;
             }
         }

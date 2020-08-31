@@ -31,7 +31,7 @@
                             <h3 class="text-info">Sản phẩm</h3>
                         </div>
                         <div class="card-body">
-                            <img src="image/product/iphone_11_pro_max.jpg">
+                            <img src="">
                         </div>
                     </div>
 
@@ -133,30 +133,32 @@
                 foreach (var product in promotionProducts)
                 {
                     <div class="item">
-                        <div class="card show-options">
-                            <div class="ribbon-wrapper">
-                                <div class="ribbon sale">
-                                    Sale
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <a href="DetailProduct?id_product=@product.Id" class="card-link"><img class="card-img-top img-zoom" src="project/image/product/@product.ImageProduct" alt="Card image"></a>
-                            </div><!--end card-body-->
-                            <div class="card-footer">
-                                <h6><%=res_getPromotionProduct.getString(2)%></h6>
-                                <div class="text-price">
-                                    <p class="float-left txt_price"><strong>@product.PriceListed ₫</strong></p>
-                                    <p class="float-left txt_price_sale"><del>@product.PricePromotion ₫</del></p>
-                                </div>
-                            </div><!-- end card-footer-->
-                            <div class="show-options-icon bg-light">
-                                <!-- add Cart-->
-                                <a style="cursor: pointer" onclick="ajaxAddProduct(@product.Id)" class="link-option"><i class="fas fa-cart-plus icon-green s--20px"></i></a>
-                                <!-- like-->
-                                <!-- detail-->
-                                <a href="" onclick="ajaxGetInforProduct(@product.Id,0,1)" class="link-option" data-toggle="modal" data-target="#detail-product"><i class="fa fa-eye icon-green s--20px"></i></a>
-                            </div>      <!--end show-text-->
-                        </div><!--end card-->
+                                    <div class="card show-options">
+                                        <div class="ribbon-wrapper">
+                                            <div class="ribbon sale">
+                                                Sale
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <a href="DetailProduct?id_product=@product.Id" class="card-link">
+                                                <img class="card-img-top img-zoom" src="@product.ImageProduct" alt="Card image">
+                                            </a>
+                                        </div><!--end card-body-->
+                                        <div class="card-footer">
+                                            <h6>@product.PricePromotion</h6>
+                                            <div class="text-price">
+                                                <p class="float-left txt_price"><strong>@product.PriceListed ₫</strong></p>
+                                                <p class="float-left txt_price_sale"><del>@product.PricePromotion ₫</del></p>
+                                            </div>
+                                        </div><!-- end card-footer-->
+                                        <div class="show-options-icon bg-light">
+                                            <!-- add Cart-->
+                                            <a style="cursor: pointer" onclick="ajaxAddProduct(@product.Id)" class="link-option"><i class="fas fa-cart-plus icon-green s--20px"></i></a>
+                                            <!-- like-->
+                                            <!-- detail-->
+                                            <a href="" onclick="ajaxGetInforProduct(@product.Id,0,1)" class="link-option" data-toggle="modal" data-target="#detail-product"><i class="fa fa-eye icon-green s--20px"></i></a>
+                                        </div>      <!--end show-text-->
+                                    </div><!--end card-->
                     </div>
                 }
             }

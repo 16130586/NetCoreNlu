@@ -52,6 +52,7 @@ namespace NetProject.Controllers
             HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity), authProperties);
             SessionFunction.SetUser(HttpContext.Session ,user);
+            if (entryParams.GetUrl == null) return Redirect("/");
             return Redirect(entryParams.GetUrl);
         }
         public IActionResult Logout()

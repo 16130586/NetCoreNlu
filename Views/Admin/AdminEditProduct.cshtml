@@ -19,7 +19,7 @@
             <div class="col-md-10 bg bg-light">
                 <h2 class="mb-5">Sản Phẩm  <small>sửa</small></h2>
 
-                <form asp-controller="Admin" asp-action="AdminEditTypeToDB" method="post" enctype="multipart/form-data">
+                <form asp-controller="Admin" asp-action="AdminEditProductToDB" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <input name="id_product" value="@res_ProductEdit.Id" type="hidden" />
                         <label for="select_nameCate">Danh mục:</label>
@@ -62,6 +62,8 @@
                     </div>
                     <label for="qty_product">Số lượng:</label>
                     <input type="text" class="form-control w-25" id="qty_product" placeholder="Nhập tên sản phẩm" value="@res_ProductEdit.Quantity" name="qty_product"><br>
+                    <label for="price_listed">Giá niêm yết:</label>
+                    <input type="text" class="form-control w-25" id="price_listed" placeholder="Nhập giá sản phẩm" value="@res_ProductEdit.PriceListed" name="price_listed"><br>
                     <label for="price_product">Giá bán:</label>
                     <input type="text" class="form-control w-25" id="price_product" placeholder="Nhập giá sản phẩm" value="@res_ProductEdit.PricePromotion" name="price_product"><br>
                     <label for="name_product">Thông số kỹ thuật:</label>
@@ -127,7 +129,7 @@
                         }
                     </select><br>
                     <button type="submit" onclick="validateForm()" class="btn btn-primary">Lưu</button>
-                    <a asp-controller="Admin" asp-action="AdminEditProduct" asp-all-route-data="idParams" class="btn btn-danger">Hủy</a>
+                    <a href="/Admin/AdminListProduct" class="btn btn-danger">Hủy</a>
                 </form>
             </div>
         </div>

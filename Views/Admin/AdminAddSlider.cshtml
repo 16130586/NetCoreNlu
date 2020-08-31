@@ -1,0 +1,51 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_MasterLayout";
+    var res_getCateProduct = ViewData["res_getCateProduct"] as List<Category>;
+   
+}
+}
+<section id="section_contentAdmin">
+    <div class="container_admin">
+        <div class="row box_row p-3">
+            @await Html.PartialAsync("../Shared/_DashboardAdminPage.cshtml");
+
+            <div class="col-md-10 bg bg-light">
+                <h2 class="mb-5">Danh mục  <small>thêm</small></h2>
+                <form asp-action="AddSliderToDB" asp-controller="Admin" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="image_slisder">Hình slider:</label>
+                        <p>
+                            <img height="100" class="img-thumbnail" id="output" src="/project/image/Null-Image.png">
+                        </p>
+                        <input type="file" required name="image_slider" id="image_slider" class="form-control-file border w-50" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])"><br>
+                    </div>
+                    <label for="select_Status">Trạng thái:</label>
+                    <select class="form-control bg bg-secondary text-light w-25" id="select_Status">
+                        <option>Hoạt động</option>
+                        <option>Không hoạt động</option>
+                    </select><br>
+                    <button type="submit" class="btn btn-primary">Thêm</button>
+                    <a href="/Admin/AdminListSlider" class="btn btn-danger">Hủy</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+@{
+    var mes_success = NetProject.Session.SessionFunction.GetString(Context.Session, "mes_err");
+}
+
+<!-- Feed back-->
+<div class="modal fade" id="checkout_success">
+    <div class="modal-dialog">
+        <div class="modal-content" style="padding: 110px">
+
+            <h3 class="text-success">@mes_success</h3>
+
+        </div>
+    </div>
+</div>
+<a href="#" id="btnSuccess" data-target="#checkout_success" data-toggle="modal" data-dismiss="modal"></a>

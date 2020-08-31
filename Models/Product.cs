@@ -12,6 +12,7 @@ namespace NetProject.Models
         public int Id { get; set; }
 
         public int IdType { get; set; }
+        public string NameType { get; set; }
 
         public string NameProduct { get; set; }
 

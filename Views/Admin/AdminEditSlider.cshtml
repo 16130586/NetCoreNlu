@@ -1,0 +1,49 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_MasterLayout";
+    var res_getCateProduct = ViewData["res_getCateProduct"] as List<Category>;
+    Slider res_SliderEdit = ViewData["res_SliderEdit"] as Slider;
+    var idParams = new Dictionary<string, string>
+{
+        {  "id_slider" , res_SliderEdit.Id.ToString()}
+    };
+}
+<section id="section_contentAdmin">
+    <div class="container_admin">
+        <div class="row box_row p-3">
+            @await Html.PartialAsync("../Shared/_DashboardAdminPage.cshtml");
+
+            <div class="col-md-10 bg bg-light">
+                <h2 class="mb-5">Sldier  <small>sửa</small></h2>
+                <form asp-action="AdminEditSliderToDB" asp-controller="Admin" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="image_slisder">Hình slider:</label>
+                        <p>
+                            <img height="100" class="img-thumbnail" id="output" src="@res_SliderEdit.ImageSlider">
+                        </p>
+                        <input value="@res_SliderEdit.ImageSlider" name="image_slider_old" style="display: none">
+                        <input type="file" required name="image_slider" id="image_slider" class="form-control-file border w-50" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])"><br>
+                    </div>
+                    <label for="select_Status">Trạng thái:</label>
+                    <select class="form-control bg bg-secondary text-light w-25" id="select_Status" name="select_Status">
+                        @if (res_SliderEdit.Active == 1)
+                        {
+                            <option value="1" selected>Hoạt động</option>
+                            <option value="0">Không hoạt động</option>
+                        }
+                        else
+                        {
+                            <option value="0" selected>Không hoạt động</option>
+                            <option value="1">Hoạt động</option>
+                        }
+                    </select><br>
+                    <button type="submit"  class="btn btn-primary">Lưu</button>
+                    <a href="/Admin/AdminListSlider" class="btn btn-danger">Hủy</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+

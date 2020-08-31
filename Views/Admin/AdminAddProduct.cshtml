@@ -12,7 +12,7 @@
             @await Html.PartialAsync("../Shared/_DashboardAdminPage.cshtml");
 
             <div class="col-md-10 bg bg-light">
-                <h2 class="mb-5">Loại  <small>thêm</small></h2>
+                <h2 class="mb-5">Sản phẩm  <small>thêm</small></h2>
                 <form asp-controller="Admin" asp-action="AddProductToDB" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="select_nameCate">Danh mục:</label>
@@ -48,6 +48,8 @@
                         <br>
                         <label for="qty_product">Số lượng:</label>
                         <input type="text" class="form-control w-25" id="qty_product" placeholder="Nhập tên sản phẩm" name="qty_product"><br>
+                        <label for="price_listed">Giá niêm yết:</label>
+                        <input type="text" class="form-control w-25" id="price_listed" placeholder="Nhập giá sản phẩm" name="price_listed"><br>
                         <label for="price_product">Giá bán:</label>
                         <input type="text" class="form-control w-25" id="price_product" placeholder="Nhập giá sản phẩm" name="price_product"><br>
                         <label for="name_product">Thông số kỹ thuật:</label>
@@ -98,7 +100,7 @@
 
                     </div>
                     <button type="submit" onclick="validateFormCheckOut()" class="btn btn-primary">Thêm</button>
-                    <a asp-controller="Admin" asp-action="ListType" class="btn btn-danger">Hủy</a>
+                    <a href="/Admin/AdminListProduct" class="btn btn-danger">Hủy</a>
                 </form>
             </div>
         </div>
