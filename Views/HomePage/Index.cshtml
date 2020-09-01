@@ -122,10 +122,11 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <a href="DetailProduct?id_product=@product.Id" class="card-link">
+                                <a href="DetailProduct/Index?id_product=@product.Id" class="card-link">
                                 <img class="card-img-top img-zoom" src="@product.ImageProduct" alt="Card image"></a>
                             </div><!--end card-body-->
                             <div class="card-footer">
+                                <h6>@product.NameProduct</h6>
                                 <h6>@product.PricePromotion</h6>
                                 <div class="text-price">
                                     <p class="float-left txt_price"><strong>@product.PriceListed ₫</strong></p>
@@ -171,7 +172,7 @@
                                 }
 
                                 <div class="card-body">
-                                    <a href="DetailProduct?id_product=@hotSmartPhones[i].Id" class="card-link">
+                                    <a href="DetailProduct/Index?id_product=@hotSmartPhones[i].Id" class="card-link">
                                     <img class="card-img-top img-zoom" src="@hotSmartPhones[i].ImageProduct" alt="Card image"></a>
                                 </div><!--end card-body-->
                                 <div class="card-footer">
@@ -212,7 +213,8 @@
                                         </div>
                                     }
                                     <div class="card-body">
-                                        <a href="DetailProduct?id_product=@hotSmartPhones[i+1].Id" class="card-link"><img class="card-img-top img-zoom" src="/project/image/product/@hotSmartPhones[i+1].ImageProduct" alt="Card image"></a>
+                                        <a href="DetailProduct/Index?id_product=@hotSmartPhones[i+1].Id" class="card-link">
+                                        <img class="card-img-top img-zoom" src="@hotSmartPhones[i+1].ImageProduct" alt="Card image"></a>
                                     </div><!--end card-body-->
                                     <div class="card-footer">
                                         <h6>@hotSmartPhones[i + 1].NameProduct</h6>
@@ -258,7 +260,7 @@
                                 }
 
                                 <div class="card-body">
-                                    <a href="DetailProduct?id_product=@hotAccessProducts[i].Id" class="card-link">
+                                    <a href="DetailProduct/Index?id_product=@hotAccessProducts[i].Id" class="card-link">
                                     <img class="card-img-top img-zoom" src="@hotAccessProducts[i].ImageProduct" alt="Card image"></a>
                                 </div><!--end card-body-->
                                 <div class="card-footer">
@@ -299,7 +301,7 @@
                                         </div>
                                     }
                                     <div class="card-body">
-                                        <a href="DetailProduct?id_product=@hotAccessProducts[i+1].Id" class="card-link">
+                                        <a href="DetailProduct/Index?id_product=@hotAccessProducts[i+1].Id" class="card-link">
                                         <img class="card-img-top img-zoom" src="@hotAccessProducts[i+1].ImageProduct" alt="Card image"></a>
                                     </div><!--end card-body-->
                                     <div class="card-footer">

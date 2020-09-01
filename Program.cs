@@ -22,7 +22,9 @@ namespace NetProject
                 try
                 {
                     var context = services.GetRequiredService<OurDbContext>();
-                    DbInitializer.Initialize(context);
+                    var hostCf = services.GetRequiredService<Microsoft.AspNetCore.Hosting.IHostingEnvironment>();
+                    var myAppConfig = services.GetRequiredService<IConfiguration>();
+                    new DbInitializer(hostCf, myAppConfig).Initialize(context);
                 }
                 catch (Exception ex)
                 {

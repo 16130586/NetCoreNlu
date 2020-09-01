@@ -39,7 +39,7 @@ namespace NetProject.Controllers
                 new Claim("NAME", user.NameUser),
                 new Claim("EMAIL" , user.Email),
                 new Claim("IMG_USER" , user.ImgeUser == null ? "user.jpg" : user.ImgeUser),
-                new Claim("PHONE_NUMBER" , user.NumberPhone),
+                new Claim("PHONE_NUMBER" , user.NumberPhone ?? ""),
                 new Claim("GENDER" , user.Gender),
                 new Claim("LEVEL" , user.Level ?? "no level")
 

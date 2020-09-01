@@ -29,8 +29,8 @@ namespace NetProject.Controllers
         }
 
 
-
-        public IActionResult DetailProduct()
+        [HttpGet]
+        public IActionResult Index([FromQuery] int id_product)
         {
             ViewData["countPromotion"] = _productDataAcessor.CountPromotionProducts();
             ViewData["promotionProducts"] = _productDataAcessor.GetPromitionProduct();
@@ -49,17 +49,9 @@ namespace NetProject.Controllers
             ViewData["id_cateChose"] = 0;
             ViewData["res_statusAdmin"] = "disible";
 
-
+            ViewData["requestedProduct"] = _productDataAcessor.GetProductById(id_product);
+            if (ViewData["requestedProduct"] == null) return NotFound();
             return View();
-        }
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

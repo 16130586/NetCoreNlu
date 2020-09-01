@@ -1,0 +1,51 @@
+﻿@{
+    Layout = null;
+    Cart c = NetProject.Session.SessionFunction.GetCart(Context.Session);
+    if (c == null) c = new Cart();
+    int count = c.List.Count();
+    int totalMoney = c.Total;
+}
+<a class="btn btn-light" asp-controller="User" asp-action="ListCart">
+    <i id="icon-shoppingcart" style="font-size: 22px" class='fas fa-shopping-cart icon-green'></i>
+    <p id="txtQty" style="position: absolute;top: -8px;left: 38px;color: white;font-size: 16px; background-color: #FF5722; padding: 0px 8px; border-radius: 50%">
+        @count
+    </p>
+</a>
+<div class="dropdown-menu" style="width: 250px">
+    <div class="container">
+        @{
+            foreach (var item in c.List)
+            {
+                <div class="row">
+                    <div class="col-md-2">
+                        <img src="@item.ImageProduct" style="width: 40px" />
+                    </div>
+                    <div class="col-md-8">
+                        <p style="font-size: 13px">@item.NameProduct</p>
+                        <p style="font-size: 13px; color: coral">
+                            <input type="number" onchange="ajaxSetQtyOnHeader(@item.Id,this.value)" value="@c.Quantities[item.Id + ""]" style="width: 40px; color: crimson; line-height: 30px">
+                            x @item.PricePromotion ₫
+                        </p>
+                    </div>
+                    <div class="col-md-2">
+                        <a style="cursor: pointer" onclick="ajaxDelCartOnHeader(@item.Id)"><i class="far fa-times-circle text-danger"></i></a>
+                    </div>
+                </div>
+                <div style="height: 1px; width: 200px; background-color: #58585854; margin-top: 10px; margin-bottom: 10px" class="container"></div>
+            }
+        }
+    </div>
+    <div class="container">
+        <p>Tổng tiền: <span style="color: coral">@c.Total ₫</span></p>
+        <div style="height: 1px; width: 200px; background-color: #58585854; margin-top: 10px; margin-bottom: 10px" class="container"></div>
+        @if (Context.User != null && Context.User.Identity != null && Context.User.Identity.IsAuthenticated)
+        {
+            <td><a asp-controller="User" asp-action="Checkout" class="btn btn-primary">Đặt hàng</a></td>
+        }
+        else
+        {
+            <button data-target="#myModal-signIn" data-toggle="modal" class="btn btn-outline-primary">Đặt hàng <span style="color: coral"> <i class="fas fa-tags"></i> </span></button>
+        }
+    </div>
+</div>
+

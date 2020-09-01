@@ -55,6 +55,12 @@ namespace NetProject.Session
             Cart cart = obj == null ? null : obj as Cart;
             return cart;
         }
+
+        public static void SetCart(ISession session, Cart cart)
+        {
+            SetObject(session, CART_KEY, cart);
+        }
+
         public static string GetString(ISession session, string key) {
             return session.GetString(key);
         }

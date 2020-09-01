@@ -36,7 +36,7 @@ namespace NetProject.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddType()
+        public IActionResult AdminAddType()
         {
             var cateProduct = _categoryDataAcessor.GetActiveCategoryProduct();
             ViewData["res_getCateProduct"] = cateProduct;
@@ -75,7 +75,7 @@ namespace NetProject.Controllers
                 ImageType = url
             });
             SessionFunction.SetString(HttpContext.Session, "mes_err", "Thêm thành công");
-            return Redirect("AddType");
+            return Redirect("AdminAddType");
         }
         [HttpGet]
         public IActionResult AdminEditType([FromQuery(Name = "id_type")] int id_type)
@@ -449,6 +449,7 @@ namespace NetProject.Controllers
                 var products = _productDataAcessor.GetAll();
                 var categories = _categoryDataAcessor.GetALL();
                 var result = products.Join(categories, tp => tp.IdCategory, ct => ct.Id, (tp, ct) => new Product
+
                 {
                     NameProduct = tp.NameProduct,
                     ImageProduct = tp.ImageProduct,

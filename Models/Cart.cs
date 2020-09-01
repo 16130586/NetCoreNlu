@@ -3,65 +3,71 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace NetProject.Models
 {
     public class Cart
     {
-        private Dictionary<int, Product> Data { get; set; }
+        [JsonExtensionData]
+        public Dictionary<string, Product> Data { get; set; }
+        [JsonExtensionData]
+        public Dictionary<string, int> Quantities { get; set; }
 
-        public List<Product> List { get { return Data.Values.AsQueryable().Where(s => s.Quantity > 0).ToList(); } }
+        public List<Product> List { get { return Data.Values.AsQueryable().Where(s => Quantities[s.Id + ""] > 0).ToList(); } }
         public int Total
         {
             get
             {
                 var sum = 0;
-                var products = Data.Values.AsQueryable().Where(s => s.Quantity > 0).ToList();
-                sum = products.Sum(p => p.Quantity * p.PriceListed);
+                var products = List;
+                sum = products.Sum(p => Quantities[p.Id + ""] * p.PricePromotion);
                 return sum;
             }
         }
 
         public Cart()
         {
-            Data = new Dictionary<int, Product>();
+            Data = new Dictionary<string, Product>();
+            Quantities = new Dictionary<string, int>();
         }
 
         public bool Remove(int id)
         {
-            return Data.Remove(id);
+            return Data.Remove(id + "") && Quantities.Remove(id + "");
         }
         public int Put(int id, int quantity)
         {
-            if (Data.ContainsKey(id))
+            var key = id + "";
+            if (Data.ContainsKey(key))
             {
-                if (Data[id].Quantity < 3)
-                {
-                    Data[id].Quantity = quantity;
-                }
+                if (quantity <= 3)
+                    Quantities[key] = quantity;
             }
-            return Data[id].Quantity;
+            return Quantities[key];
         }
-        public int Put(Product product)
+        public int Put(Product product , int quantity)
         {
-            if (Data.ContainsKey(product.Id))
+            var key = product.Id + "";
+            if (Data.ContainsKey(key))
             {
-                if (Data[product.Id].Quantity < 3)
+                if ((Quantities[key]  + quantity ) <= 3)
                 {
-                    Data[product.Id].Quantity++;
+                    Quantities[key] = Quantities[key] + quantity;
                 }
             }
             else
             {
-                Data.Add(product.Id, product);
+                Data.Add(key, product);
+                Quantities.Add(key, quantity);
             }
-            return Data[product.Id].Quantity;
+            return Quantities[key];
         }
         public Product Get(int id)
         {
-            if (Data.ContainsKey(id))
-                return Data[id];
+            if (Data.ContainsKey(id + ""))
+                return Data[id + ""];
             return null;
         }
 

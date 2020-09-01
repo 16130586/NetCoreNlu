@@ -96,12 +96,12 @@ function ajaxGetInforProduct(id_pro, indexstart) {
             showSlides(indexstart+1,1);
         }
     };
-    xhttp.open("GET", "http://localhost:8080/ProjectWeb/AjaxGetInforProduct?id_pro=" + id_pro+"&index="+indexstart, true);
+    xhttp.open("GET", "/Ajax/GetInforProduct?id_product=" + id_pro+"&index="+indexstart, true);
     xhttp.send();
 
 }
 
-function ajaxAddProduct(id_pro) {
+function ajaxAddProduct(id_pro, quantity) {
     var xhttp;
     if (id_pro == "") {
         document.getElementById("txtDetail").innerHTML = "";
@@ -113,10 +113,12 @@ function ajaxAddProduct(id_pro) {
             document.getElementById("show_miniCart").innerHTML = this.responseText;
         }
     };
-    xhttp.open("GET", "http://localhost:8080/ProjectWeb/AddCart?id_product=" + id_pro, true);
+    if (quantity == undefined)
+        quantity = 1
+    xhttp.open("GET", "/Cart/AddCart?id_product=" + id_pro + "&quantity=" + quantity, true);
     xhttp.send();
-
 }
+
 
 
 
@@ -133,7 +135,7 @@ function ajaxDelCartOnHeader(id_pro) {
             ajaxGetQty()
         }
     };
-    xhttp.open("GET", "http://localhost:8080/ProjectWeb/AjaxDelCartOnHeader?id_pro=" + id_pro, true);
+    xhttp.open("GET", "/Cart/AjaxDelCartOnHeader?id_product=" + id_pro, true);
     xhttp.send();
 }
 
@@ -149,7 +151,7 @@ function ajaxSetQtyOnHeader(id_pro, val) {
             document.getElementById("show_miniCart").innerHTML = this.responseText;
         }
     };
-    xhttp.open("GET", "http://localhost:8080/ProjectWeb/AjaxSetQtyOnHeader?id_pro=" + id_pro +"&val="+val, true);
+    xhttp.open("GET", "/Cart/AjaxSetQtyOnHeader?id_product=" + id_pro +"&value="+val, true);
     xhttp.send();
 }
 

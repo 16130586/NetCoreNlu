@@ -16,7 +16,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <!-- container -->
         <div class="container">
-            <a class="navbar-brand" asp-action="Index" asp-controller="HomePage"><img width="214" src="/project/image/logo.png" alt=""></a>
+            <a class="navbar-brand" asp-action="Index" asp-controller="HomePage"><img style="width : 214px" src="/project/image/logo.png" alt=""></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbarToggler_1" aria-controls="navbarToggler-1" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -32,8 +32,8 @@
             </div>
             <div class="collapse navbar-collapse navbarToggler_1" id="">
                 <form action="SearchProduct" class="form-inline my-2 my-lg-0 ml-auto">
-                    <div class="dropdown">
-                        <input class="form-control" type="search" name="getSearch" id="getSearch" oninput="ajaxSerch(document.getElementById('getSearch').value)" placeholder="Bạn muốn tìm gì?" aria-label="Search" style="padding-right: 60px;">
+                    <div class="dropdown" style="display: flex ; flex-direction: row-reverse">
+                        <input class="form-control ml-4" type="search" name="getSearch" id="getSearch" oninput="ajaxSerch(document.getElementById('getSearch').value)" placeholder="Bạn muốn tìm gì?" aria-label="Search" style="padding-right: 60px;">
 
                         <button style="margin-left: -55px;" class="fas fa-search btn btn-outline-success my-2 my-sm-0" type="submit"></button>
                         <div id="show_resultSearch">
@@ -93,11 +93,11 @@
                         <li class="nav-item">
                             @if ("disible".Equals(res_statusAdmin))
                             {
-                                <a class="nav-link" href="AdminListProduct"><i class="fas fa-user-cog icon-green"></i> Admin</a>
+                                <a class="nav-link" asp-controller="Admin" asp-action="AdminListProduct"><i class="fas fa-user-cog icon-green"></i> Admin</a>
                             }
                             else
                             {
-                                <a class="nav-link active" href="AdminListProduct"><i class="fas fa-user-cog icon-green"></i> Admin</a>
+                                <a class="nav-link active" asp-controller="Admin" asp-action="AdminListProduct"><i class="fas fa-user-cog icon-green"></i> Admin</a>
                             }
                         </li>
                     }
@@ -124,7 +124,7 @@
                                     {
                                         <div class="row">
                                             <div class="col-md-2">
-                                                <img style="width : 40px" src="/project/image/product/@p.ImageProduct">
+                                                <img style="width : 40px" src="@p.ImageProduct">
                                             </div>
                                             <div class="col-md-8">
                                                 <p style="font-size: 13px">@p.NameProduct</p>

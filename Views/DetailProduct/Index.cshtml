@@ -1,0 +1,260 @@
+﻿
+@{
+    Layout = "_MasterLayout";
+    ViewData["Title"] = "DetailProduct Page";
+    int countPromotion = (int)ViewData["countPromotion"];
+    List<Product> promotionProducts = (List<Product>)ViewData["promotionProducts"];
+    List<Product> relatedProduct = (List<Product>)ViewData["relatedProduct"];
+    Product requestedProduct = ViewData["requestedProduct"] as Product;
+
+
+}
+<!--content-->
+<!--path link-->
+<!--section-5-->
+<section id=section-5>
+    <div class="container">
+        <ul class="nav">
+            <li><a href="#">Home</a></li>
+            <span class="ml-2 mr-2"> > </span>
+            <li><a href="#">Product</a></li>
+            <span class="ml-2 mr-2"> > </span>
+            <li><a href="#">@requestedProduct.NameProduct</a></li>
+        </ul>
+    </div>
+</section>
+<!--section-6-->
+<section id="section-6">
+    <div class="container">
+        <div class="row mt-4">
+            <!--image -->
+            <div class="col-md-5">
+                <div class="card h--600px">
+                    <div class="card-header">
+                        <h3 class="text-info">Sản phẩm</h3>
+                    </div>
+                    <div class="card-body">
+                        <img src="@requestedProduct.ImageProduct">
+                    </div>
+                </div>
+
+            </div>
+            <!--decrepstion -->
+            <div class="col-md-7">
+                <strong class="s-30 text-success">@requestedProduct.PricePromotion đ</strong>
+                <del class="s-20 ml-4">@requestedProduct.PriceListed</del>
+                <p class="card-title font-weight-bold">Thông số kỹ thuật</p>
+                <table class="table table-borderless">
+                    <tbody>
+                        <tr>
+                            <td><span class="text-dark">Màn hình:</span></td>
+                            <td><span class="text-info">@(requestedProduct.Screen ?? "-------------------")</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-dark">Hệ điều hành:</span></td>
+                            <td><span class="text-info">@(requestedProduct.Operating_System ?? "-------------------")</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-dark">Camera sau</span></td>
+                            <td><span class="text-info">@(requestedProduct.Back_Camera ?? "-------------------")</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-dark">Camera trước</span></td>
+                            <td><span class="text-info">@(requestedProduct.Front_Camera ?? "-------------------")</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-dark">CPU</span></td>
+                            <td><span class="text-info">@(requestedProduct.CPU ?? "-------------------")</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="text-dark">RAM</span></td>
+                            <td><span class="text-info">@(requestedProduct.RAM ?? "-------------------")</span></td>
+                        </tr>
+                    <td><span class="text-dark">Bộ nhớ trong</span></td>
+                    <td><span class="text-info">@(requestedProduct.Internal_Memory ?? "-------------------")</span></td>
+                    </tr>
+                    <td><span class="text-dark">Thẻ nhớ</span></td>
+                    <td><span class="text-info">@(requestedProduct.Memory_Stick ?? "-------------------")</span></td>
+                    </tr>
+                    </tr>
+                    <td><span class="text-dark">Thẻ SIM</span></td>
+                    <td><span class="text-info">@(requestedProduct.Sim_Stick ?? "-------------------")</span></td>
+                    </tr>
+                    </tr>
+                    <td><span class="text-dark">Dung lượng pin</span></td>
+                    <td><span class="text-info">@(requestedProduct.Battery_Capacity ?? "-------------------")</span></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="row mt-4">
+                    <div class="col-md-3">
+                        <label for="selt">Số lượng: </label>
+                        <input class="w--50px h--50px b-circle border-0 bg-eee text-center" type="number" name="" id="selt" required value="1">
+                    </div>
+                    <div class="col-md-9 mb-3">
+                        <button type="button" onclick="ajaxAddProduct(@requestedProduct.Id , document.getElementById('selt').value)" class="h-100 w-50 pt-2 btn btn-outline-primary my-2 my-sm-0"><h5><i class="fas fa-cart-plus"></i> Thêm vào giỏ</h5></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- section7-->
+<section id="section-7">
+    <!-- comment-->
+    <div class="container mt-3">
+        <a href="" data-toggle="collapse" data-target="#comment" class="nav-link"><h4>Đánh giá  </h4></a>
+        <div id="comment" class="collapse">
+            <div class="media border p-3 m-4 w-75">
+                <img src="~/project/image/user.jpg" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width: 50px">
+                <div class="media-body">
+                    <h5>User </h5>
+                    <p>"-------------------"</p>
+                </div>
+            </div>
+            <div class="media border p-3 m-4 w-75">
+                <img src="~/project/image/user.jpg" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width: 50px">
+                <div class="media-body">
+                    <h5>User </h5>
+                    <p>"-------------------"</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="section-8" class="mt-5">
+    <!--relate-->
+    <div class="container">
+
+        <span class="related_product">@relatedProduct.Count() SẢN PHẨM LIÊN QUAN</span>
+        <!--row-->
+        <div class="row">
+            @{
+                foreach (var product in promotionProducts)
+                {
+                    <div class="item col-3" style="margin-top : 1rem">
+                        <div class="card show-options">
+                            <div class="ribbon-wrapper">
+                                <div class="ribbon sale">
+                                    Sale
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <a href="/DetailProduct?id_product=@product.Id" class="card-link">
+                                    <img class="card-img-top img-zoom" src="@product.ImageProduct" alt="Card image">
+                                </a>
+                            </div><!--end card-body-->
+                            <div class="card-footer">
+                                <h6>@product.PricePromotion</h6>
+                                <div class="text-price">
+                                    <p class="float-left txt_price"><strong>@product.PriceListed ₫</strong></p>
+                                    <p class="float-left txt_price_sale"><del>@product.PricePromotion ₫</del></p>
+                                </div>
+                            </div><!-- end card-footer-->
+                            <div class="show-options-icon bg-light">
+                                <!-- add Cart-->
+                                <a style="cursor: pointer" onclick="ajaxAddProduct(@product.Id)" class="link-option"><i class="fas fa-cart-plus icon-green s--20px"></i></a>
+                                <!-- like-->
+                                <!-- detail-->
+                                <a href="" onclick="ajaxGetInforProduct(@product.Id,0,1)" class="link-option" data-toggle="modal" data-target="#detail-product"><i class="fa fa-eye icon-green s--20px"></i></a>
+                            </div>      <!--end show-text-->
+                        </div><!--end card-->
+                    </div>
+                }
+            }
+        </div>
+
+        <!--modal image zoom-->
+        <div class="modal fade" id="detail-product">
+            <div class="modal-dialog modal-xl" id="txtDetail">
+            </div>
+            <span class="menu_title">@relatedProduct.Count SẢN PHẨM LIÊN QUAN</span>
+            <!--row-->
+            <div class="owl-carousel phone-banner owl-theme mt-3 mb-4">
+                @{
+                    for (var i = 0; i < relatedProduct.Count; i += 2)
+                    {
+                        <div class="item">
+                            <div class="mt-4">
+                                <div class="card show-options">
+                                    @if (relatedProduct[i].PricePromotion > 0)
+                                    {
+                                        <div class="ribbon-wrapper">
+                                            <div class="ribbon sale">
+                                                Sale
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <div class="card-body">
+                                        <a href="/DetailProduct?id_product=@relatedProduct[i].Id" class="card-link"><img class="card-img-top img-zoom" src="project/image/product/@relatedProduct[i].ImageProduct" alt="Card image"></a>
+                                    </div><!--end card-body-->
+                                    <div class="card-footer">
+                                        <h6>@relatedProduct[i].NameProduct</h6>
+                                        <div class="text-price">
+                                            <p class="float-left txt_price"><strong>@relatedProduct[i].PriceListed ₫</strong></p>
+                                            @if (relatedProduct[i].PricePromotion > 0)
+                                            {
+                                                <p class="float-left txt_price_sale"><del>@relatedProduct[i].PricePromotion ₫</del></p>
+                                            }
+
+
+                                        </div>
+                                    </div><!-- end card-footer-->
+                                    <div class="show-options-icon bg-light">
+                                        <!-- add Cart-->
+                                        <a style="cursor: pointer" onclick="ajaxAddProduct(@relatedProduct[i].Id)" class="link-option"><i class="fas fa-cart-plus icon-green s--20px"></i></a>
+                                        <!-- like-->
+                                        <!-- detail-->
+                                        <a href="" onclick="ajaxGetInforProduct(@relatedProduct[i].Id,0,1)" class="link-option" data-toggle="modal" data-target="#detail-product"><i class="fa fa-eye icon-green s--20px"></i></a>
+                                    </div>      <!--end show-text-->
+                                </div><!--end card-->
+                            </div>
+
+                            @if (i + 1 < relatedProduct.Count)
+                            {
+
+
+
+                                <div class="mt-4">
+                                    <div class="card show-options">
+                                        @if (relatedProduct[i + 1].PricePromotion > 0)
+                                        {
+                                            <div class="ribbon-wrapper">
+                                                <div class="ribbon sale">
+                                                    Sale
+                                                </div>
+                                            </div>
+                                        }
+                                        <div class="card-body">
+                                            <a href="/DetailProduct?id_product=@relatedProduct[i+1].Id" class="card-link"><img class="card-img-top img-zoom" src="project/image/product/@relatedProduct[i+1].ImageProduct" alt="Card image"></a>
+                                        </div><!--end card-body-->
+                                        <div class="card-footer">
+                                            <h6>@relatedProduct[i + 1].NameProduct</h6>
+                                            <div class="text-price">
+                                                <p class="float-left txt_price"><strong>@relatedProduct[i + 1].PriceListed ₫</strong></p>
+                                                @if (relatedProduct[i + 1].PricePromotion > 0)
+                                                {
+                                                    <p class="float-left txt_price_sale"><del>@relatedProduct[i + 1].PricePromotion ₫</del></p>
+                                                }
+                                            </div>
+                                        </div><!-- end card-footer-->
+                                        <div class="show-options-icon bg-light">
+                                            <!-- add Cart-->
+                                            <a style="cursor: pointer" onclick="ajaxAddProduct(@relatedProduct[i + 1].Id)" class="link-option"><i class="fas fa-cart-plus icon-green s--20px"></i></a>
+                                            <!-- like-->
+                                            <!-- detail-->
+                                            <a href="" onclick="ajaxGetInforProduct(@relatedProduct[i + 1].Id,0,1)" class="link-option" data-toggle="modal" data-target="#detail-product"><i class="fa fa-eye icon-green s--20px"></i></a>
+                                        </div>      <!--end show-text-->
+                                    </div><!--end card-->
+                                </div>
+                            }
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+

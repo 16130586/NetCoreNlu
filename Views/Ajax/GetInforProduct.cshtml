@@ -1,0 +1,96 @@
+﻿@{
+
+    Layout = null;
+    var product = ViewData["res_inforPro"] as Product;
+    var index = (int)ViewData["index"];
+}
+
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="text-info ml-5">@product.NameProduct</h4>
+        <button type="button" onclick="showSlides(1,2)" class="close" data-dismiss="modal">&times;</button>
+    </div>
+    <!-- Modal body -->
+    <div class="modal-body">
+        <div class="row">
+            <!--image -->
+            <div class="col-md-6">
+
+                <div class="container" style="">
+
+                    @{
+
+                        if (string.IsNullOrEmpty(product.ImageDetailProduct)) product.ImageDetailProduct = "";
+                        var arrImgDetail = product.ImageDetailProduct.Split("_#a#b#c_");
+                        foreach (var item in arrImgDetail)
+                        {
+                            <div class="mySlides">
+                                <img class="zoom_img " data-zoom="@item" src="@item" style="width:100% ">
+                            </div>
+                        }
+                    }
+                    <div class="row mt-2 row_slide">
+                        @{
+                            var numberSubImg = index;
+                            for (int i = 0; i < arrImgDetail.Count(); i++)
+                            {
+                                numberSubImg += 1;
+                                <div class="column">
+                                    <div class="img_choose">
+                                        <img class="img-thumbnail" src="@arrImgDetail[i]" style="width:100%" onclick="showSlides(@numberSubImg,1)" alt="The Woods">
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+
+            </div>
+            <!--decrepstion -->
+            <div class="col-md-6">
+                <div class="detail_1" style="width: 100%">
+                    <strong class="s-30 text-success">@product.PriceListed đ</strong>
+                    @{
+                        if (product.PricePromotion != 0)
+                        {
+                            <del class="s-20 ml-4">@product.PricePromotion  ₫</del>
+                        }
+                    }
+                    <h5 class="font-weight-bold mt-5 mb-2">Thông số kỹ thuật</h5>
+                    <table class="table table-borderless">
+                        <tbody>
+                            @{
+                                var str = product.Parameter ?? "";
+                                var arrOffStr = str.Split("_#a#b#c_");
+                                for (int i = 0; i < arrOffStr.Count(); i += 2)
+                                {
+                                    <tr>
+                                        <td style="width: 160px"><span class="text-dark">@arrOffStr[i]</span></td>
+                                        @if((i + 1) < arrOffStr.Count()) { 
+                                            <td><span class="text-info">@arrOffStr[i+1]</span></td>
+                                        }
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                    <div class="row mt-4">
+                        <div class="col-md-3">
+                            <label>Số lượng: </label>
+                            <input class="w--50px h--50px b-circle border-0 bg-eee text-center" type="number" min="1" max="3" id="getQty" required value="1">
+                        </div>
+                        <div class="col-md-9 mb-3">
+                            <a style="cursor: pointer; color:white; position: absolute; top: 30px" 
+                               onclick="(function handleClick() {
+                                     ajaxAddProduct(@product.Id, document.getElementById('getQty').value)
+                                     document.getElementById('txtDetail').innerHTML = '';
+                                })()" 
+                               class="w-50 pt-2 btn btn-primary my-2 my-sm-0"><h5><i class="fas fa-cart-plus"></i> Thêm vào giỏ</h5></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
