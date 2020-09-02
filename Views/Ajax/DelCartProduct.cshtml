@@ -1,0 +1,57 @@
+﻿@{
+    Layout = null;
+    Cart cart = NetProject.Session.SessionFunction.GetCart(Context.Session);
+}
+    <table class="table table-bordered text-center text-justify">
+        <thead class="thead-light">
+            <tr>
+                <th>STT</th>
+                <th>Ảnh sản phẩm</th>
+                <th>Tên sản phẩm</th>
+                <th>Giá sản phẩm</th>
+                <th>Số lượng</th>
+                <th>Tổng Giá</th>
+                <th>Tác vụ</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @{
+                var index = 0;
+                foreach (var item in cart.List)
+                {
+                    <tr>
+                        <td>@(++index)</td>
+                        <td><img src="@item.ImageProduct"></td>
+                        <td>@item.NameProduct</td>
+                        <td>@item.PriceListed</td>
+                        <td>
+                            <input value="@cart.Quantities[item.Id + ""]" onchange="ajaxSetQty(@item.Id, this.value)" type="number" style="line-height: 45px; padding: 5px" min="1" class="w--50px b-circle border-0 bg-eee text-center">
+                        </td>
+                        <td id="txtTotal_@item.Id">
+                            <input value="@(item.PriceListed * cart.Quantities[item.Id + ""])đ" type="text" class="border-0">
+                        </td>
+                        <td>
+                            <a href="/DetailProduct?id_product=@item.Id"><i class="far fa-eye s-25 text-secondary mr-1" title="Xem chi tiết"></i></a>
+                            <a onclick="ajaxDelProductCart(@item.Id)" style="cursor: pointer"><i class="fas fa-trash-alt s-25 text-danger" title="xóa"></i></a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+        <tfoot class="bg-secondary text-light">
+        <td>Thành tiền: </td>
+        <td colspan="5">
+            <input value="@cart.Total đ" type="text" class="border-0 text-light" style="background: none">
+        </td>
+        @if (Context.User != null && Context.User.Identity != null && Context.User.Identity.IsAuthenticated)
+        {
+            <td><a href="#" class="btn btn-primary">Đặt hàng</a></td>
+        }
+        else
+        {
+            <td><a style="cursor: pointer" data-target="#myModal-signIn" data-toggle="modal" class="btn btn-primary">Đặt hàng</a></td>
+        }
+        </tfoot>
+
+    </table>

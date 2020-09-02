@@ -1,0 +1,142 @@
+﻿@{
+    Layout = "_MasterLayout";
+    ViewData["Title"] = "Home Page";
+    List<Slider> sliders = (List<Slider>)ViewData["sliders"];
+    int countPromotion = (int)ViewData["countPromotion"];
+    List<Product> promotionProducts = (List<Product>)ViewData["promotionProducts"];
+    List<Product> hotSmartPhones = (List<Product>)ViewData["hotSmartPhones"];
+    List<Product> hotAccessProducts = (List<Product>)ViewData["hotAccessProducts"];
+    Cart cart = NetProject.Session.SessionFunction.GetCart(Context.Session) ?? new Cart();
+
+}
+<section id="section_7" style="height: 558px">
+    <div class="container">
+        <div class="">
+            <h2 class="mb-3 mt-5">Giỏ hàng</h2>
+            <br>
+            <div id="txtListCart">
+                <table class="table table-bordered text-center text-justify">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>STT</th>
+                            <th>Ảnh sản phẩm</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Giá sản phẩm</th>
+                            <th>Số lượng</th>
+                            <th>Tổng Giá</th>
+                            <th>Tác vụ</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @{
+                            var index = 0;
+                            foreach (var item in cart.List)
+                            {
+                                <tr>
+                                    <td>@(++index)</td>
+                                    <td><img src="@item.ImageProduct"></td>
+                                    <td>@item.NameProduct</td>
+                                    <td>@item.PriceListed</td>
+                                    <td>
+                                        <input value="@cart.Quantities[item.Id + ""]" onchange="ajaxSetQty(@item.Id, this.value)" type="number" style="line-height: 45px; padding: 5px" min="1" class="w--50px b-circle border-0 bg-eee text-center">
+                                    </td>
+                                    <td id="txtTotal_@item.Id">
+                                        <input value="@(item.PriceListed * cart.Quantities[item.Id + ""])đ" type="text" class="border-0">
+                                    </td>
+                                    <td>
+                                        <a href="/DetailProduct?id_product=@item.Id"><i class="far fa-eye s-25 text-secondary mr-1" title="Xem chi tiết"></i></a>
+                                        <a onclick="ajaxDelProductCart(@item.Id)" style="cursor: pointer"><i class="fas fa-trash-alt s-25 text-danger" title="xóa"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                    <tfoot class="bg-secondary text-light">
+                    <td>Thành tiền: </td>
+                    <td colspan="5">
+                        <input value="@cart.Total đ" type="text" class="border-0 text-light" style="background: none">
+                    </td>
+                    @if (Context.User != null && Context.User.Identity != null && Context.User.Identity.IsAuthenticated)
+                    {
+                        <td><a href="#" class="btn btn-primary" >Đặt hàng</a></td>
+                    }
+                    else
+                    {
+                        <td><a style="cursor: pointer" data-target="#myModal-signIn" data-toggle="modal" class="btn btn-primary">Đặt hàng</a></td>
+                    }
+                    </tfoot>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Feed back-->
+<div class="modal fade" id="checkout_success">
+    <div class="modal-dialog">
+        <div class="modal-content" style="padding: 110px">
+
+            <h3 class="text-success">Đặt hàng thành công</h3>
+
+        </div>
+    </div>
+</div>
+<a href="#" id="btnSuccess" data-target="#checkout_success" data-toggle="modal" data-dismiss="modal"></a>
+@{
+    var mes_success = NetProject.Session.SessionFunction.GetString(Context.Session, "mes_success");
+}
+@if (!string.IsNullOrEmpty(mes_success))
+{
+    <script>
+    $(document).ready(function () {
+        document.getElementById("btnSuccess").click();
+        window.onclick = function (event) {
+
+            if (event.target == document.getElementById("checkout_success")) {
+
+               @{
+                   NetProject.Session.SessionFunction.Remove(Context.Session, "mes_success");
+               }
+            }
+        }
+    });
+    </script>
+}
+<script>
+    function ajaxSetQty(id_pro, val) {
+        var xhttp;
+        if (id_pro == "") {
+            document.getElementById("txtListCart").innerHTML = "";
+            return;
+        }
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("txtListCart").innerHTML = this.responseText;
+                ajaxUpdateCartHeader();
+            }
+        };
+        xhttp.open("GET", "/Ajax/SetQty?id_product=" + id_pro + "&value=" + val, true);
+        xhttp.send();
+    }
+
+
+    function ajaxDelProductCart(id_pro) {
+        var xhttp;
+        if (id_pro == "") {
+            document.getElementById("txtListCart").innerHTML = "";
+            return;
+        }
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("txtListCart").innerHTML = this.responseText;
+                ajaxUpdateCartHeader();
+            }
+        };
+        xhttp.open("GET", "/Ajax/DelCartProduct?id_product=" + id_pro, true);
+        xhttp.send();
+    }
+</script>

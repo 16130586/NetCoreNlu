@@ -61,5 +61,27 @@ namespace NetProject.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        [HttpGet]
+        public IActionResult ListCart()
+        {
+            ViewData["sliders"] = _sliderDataAcessor.GetSlidersIndex();
+            ViewData["countPromotion"] = _productDataAcessor.CountPromotionProducts();
+            ViewData["promotionProducts"] = _productDataAcessor.GetPromitionProduct();
+            ViewData["hotSmartPhones"] = _productDataAcessor.GetProductByCategory(1);
+            ViewData["hotAccessProducts"] = _productDataAcessor.GetProductByCategory(2);
+
+            var cateProduct = _categoryDataAcessor.GetActiveCategoryProduct();
+            ViewData["res_getCateProduct"] = cateProduct;
+            foreach (var cate in cateProduct)
+            {
+                ViewData["res_getTypeProduct_" + cate.Id] = _typeProductDataAcessor.GetTypeProduct(cate.Id);
+            }
+
+            ViewData["res_statusHomePage"] = "visible";
+            ViewData["id_cateChose"] = 0;
+            ViewData["res_statusAdmin"] = "disible";
+            return View();
+        }
     }
 }

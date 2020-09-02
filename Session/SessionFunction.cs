@@ -52,7 +52,7 @@ namespace NetProject.Session
         public static Cart GetCart(ISession session)
         {
             var obj = GetObject<Cart>(session, CART_KEY);
-            Cart cart = obj == null ? null : obj as Cart;
+            Cart cart = obj == null ? new Cart() : obj as Cart;
             return cart;
         }
 

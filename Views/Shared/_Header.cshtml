@@ -117,7 +117,7 @@
                                 var count = cart.List.Count();
                                 var totalMoney = cart.Total;
                             }
-                            <a class="btn btn-light" href="ListCart"><i id="icon-shoppingcart" style="font-size: 22px" class='fas fa-shopping-cart icon-green'></i><p id="txtQty" style="position: absolute;top: -8px;left: 38px;color: white;font-size: 16px; background-color: #FF5722; padding: 0px 8px; border-radius: 50%">@count</p></a>
+                            <a class="btn btn-light" asp-action="ListCart" asp-controller="HomePage"><i id="icon-shoppingcart" style="font-size: 22px" class='fas fa-shopping-cart icon-green'></i><p id="txtQty" style="position: absolute;top: -8px;left: 38px;color: white;font-size: 16px; background-color: #FF5722; padding: 0px 8px; border-radius: 50%">@count</p></a>
                             <div class="dropdown-menu" style="width: 250px">
                                 <div class="container">
                                     @foreach (Product p in cart.List)
