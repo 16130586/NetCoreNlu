@@ -17,7 +17,8 @@ namespace NetProject.DbAccessor
             _context.Products.Add(product);
             _context.SaveChanges();
         }
-        public List<Product> GetPromitionProduct() {
+        public List<Product> GetPromitionProduct()
+        {
             try
             {
                 return _context.Products.Where(pd => pd.Active == 1 && pd.PricePromotion > 0).OrderBy(x => Guid.NewGuid()).ToList();
@@ -29,7 +30,8 @@ namespace NetProject.DbAccessor
             }
         }
 
-        public int CountPromotionProducts(){
+        public int CountPromotionProducts()
+        {
             try
             {
                 return _context.Products.Where(pd => pd.Active == 1 && pd.PricePromotion > 0).Count();
@@ -62,7 +64,7 @@ namespace NetProject.DbAccessor
                             Parameter = products.Parameter,
                             ImageDetailProduct = products.ImageDetailProduct
                         }).ToList();
-                        
+
             }
             catch (Exception e)
             {
@@ -137,6 +139,29 @@ namespace NetProject.DbAccessor
             }
 
 
+        }
+
+        public Dictionary<string, Object> GetAllTypeProduct(int id_type, int limit, int id_start)
+        {
+            Dictionary<string, Object> result = new Dictionary<string, Object>();
+            result.Add("products", _context.Products.Where(pd => (pd.IdType == id_type) && pd.Active == 1).Skip(id_start).Take(limit).ToList());
+            result.Add("total", _context.Products.Where(pd => (pd.IdType == id_type) && pd.Active == 1).Count());
+
+            if(result["products"] == null)
+            {
+                result["products"] = new List<Product>();
+            }
+            return result;
+        }
+        public List<Product> GetAllTypeProductPromotion(int id_type)
+        {
+            var results = _context.Products.Where(pd => (pd.PricePromotion != 0) && (pd.IdType == id_type) && (pd.Active == 1)).ToList();
+            return results ?? new List<Product>();
+        }
+        public List<Product> GetAllTypeProductSmartPhone()
+        {
+            var results = _context.Products.Where(pd => (pd.Active == 1) && (pd.IdCategory == 1)).ToList();
+            return results ?? new List<Product>();
         }
     }
 }

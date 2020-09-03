@@ -1,0 +1,228 @@
+﻿
+@{
+    Layout = "_MasterLayout";
+    ViewData["Title"] = "Home Page";
+    List<Slider> sliders = (List<Slider>)ViewData["sliders"];
+    int countPromotion = (int)ViewData["countPromotion"];
+    List<Product> promotionProducts = (List<Product>)ViewData["promotionProducts"];
+    List<Product> hotSmartPhones = (List<Product>)ViewData["hotSmartPhones"];
+    List<Product> hotAccessProducts = (List<Product>)ViewData["hotAccessProducts"];
+
+    List<TypeProduct> typeProducts = ViewData["res_getAllTypeProductSmartPhone"] as List<TypeProduct>;
+    int activeType = (int)ViewData["activeType"];
+
+    List<TypeProduct> smartphoneType = ViewData["res_getNameTypeProductSmartPhone"] as List<TypeProduct>;
+    List<Product> allProductPromotion = ViewData["res_getAllTypeProductPromotion"] as List<Product>;
+    var allTypeProduct = ViewData["res_getAllTypeProduct"] as Dictionary<string, object>;
+}
+
+<section id="section-5" class="mt-5">
+    <div class="container">
+        <div class="search_by_carrier col-md-12">
+            @{
+                foreach (var item in typeProducts)
+                {
+                    var routeData = new Dictionary<string, string>();
+                    routeData.Add("type_product", item.Id + "");
+
+                    if (item.Id == activeType)
+                    {
+                        <a asp-all-route-data="routeData" asp-action="TypeProduct" asp-controller="HomePage" style="background-color: #4caf503b"><img src="@item.ImageType" alt=""></a>
+                    }
+                    else
+                    {
+                        <a asp-all-route-data="routeData" asp-action="TypeProduct" asp-controller="HomePage"><img src="@item.ImageType" alt=""></a>
+                    }
+                }
+            }
+        </div>
+        <div class="serch_by_price navbar col-md-8 mt-3">
+            <ul class="nav">
+                <li class="nav-item">
+                    <h6 class="nav-link">Chọn mức giá</h6>
+                </li>
+                <li class="nav-item">
+                    <a style="cursor: pointer" onclick="ajaxFindPrice(0,2000000,@activeType)" class="nav-link">Dưới 2 triệu</a>
+                </li>
+                <li class="nav-item">
+                    <a style="cursor: pointer" onclick="ajaxFindPrice(2000000,4000000,@activeType)" class="nav-link">Từ 2 đến 4 triệu</a>
+                </li>
+                <li class="nav-item">
+                    <a style="cursor: pointer" onclick="ajaxFindPrice(4000000,7000000,@activeType" class="nav-link">Từ 4 đến 7 triệu</a>
+                </li>
+                <li class="nav-item">
+                    <a style="cursor: pointer" onclick="ajaxFindPrice(7000000,13000000,@activeType" class="nav-link">Từ 7 đến 13 triệu</a>
+                </li>
+                <li class="nav-item">
+                    <a style="cursor: pointer" onclick="ajaxFindPrice(13000000,60000000,@activeType" class="nav-link">Trên 13 triệu</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!--section 4 -->
+<section class="mt-5" id="section-4">
+    <!-- container-->
+    <div class="container">
+
+        <!--modal image zoom-->
+        <div class="modal fade" id="detail-product">
+            <div class="modal-dialog modal-xl" id="txtDetail">
+
+            </div>
+
+        </div>
+
+        <div id="txtFindPricePro">
+            <!--menu title-->
+           
+            <span class="menu_title" style="text-transform: uppercase">Điện thoại @smartphoneType[0].NameType ĐANG KHUYẾN MÃI</span>
+            <!--row-->
+            <!--product-sale-->
+            <div class="owl-carousel promotion-banner owl-theme mt-3 mb-4">
+
+                @{
+                    var index = 0;
+
+                    foreach (var item in allProductPromotion)
+                    {
+                        var routeData = new Dictionary<string, string>();
+                        routeData.Add("id_product", item.Id + "");
+                        <div class="item">
+                            <div class="card show-options">
+                                <div class="ribbon-wrapper">
+                                    <div class="ribbon sale">
+                                        Sale
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <a asp-all-route-data="routeData" asp-action="Index" asp-controller="DetailProduct" class="card-link"><img class="card-img-top img-zoom" src="@item.ImageProduct" alt="Card image"></a>
+                                </div><!--end card-body-->
+                                <div class="card-footer">
+                                    <h6>@item.NameProduct</h6>
+                                    <div class="text-price">
+                                        <p class="float-left txt_price"><strong>@item.PricePromotion</strong></p>
+
+                                        <p class="float-left txt_price_sale"><del>@item.PriceListed đ</del></p>
+                                    </div>
+                                </div><!-- end card-footer-->
+                                <div class="show-options-icon bg-light">
+                                    <!-- add Cart-->
+                                    <a style="cursor: pointer" onclick="ajaxAddProduct(@item.Id)" class="link-option"><i class="fas fa-cart-plus icon-green s--20px"></i></a>
+                                    <!-- like-->
+                                    <!-- detail-->
+                                    <a onclick="ajaxGetInforProduct(@item.Id,0,1)" class="link-option" data-toggle="modal" data-target="#detail-product"><i class="fa fa-eye icon-green s--20px"></i></a>
+                                </div>      <!--end show-text-->
+                            </div><!--end card-->
+                        </div>
+                    }
+                }
+            </div>
+
+
+
+            <!--menu title-->
+
+            <span class="menu_title" style="text-transform: uppercase">ĐIỆN THOẠI @smartphoneType[0].NameType</span>
+            <div id="txt_pagination">
+                <!--row-->
+                <div class="row ml-1 mt-3 mb-3">
+                    <!--product-sale-->
+                    @{
+                        foreach (var item in (allTypeProduct["products"] as List<Product>))
+                        {
+                            var routeData = new Dictionary<string, string>();
+                            routeData.Add("id_product", item.Id + "");
+                            <li class="col-sm-3 mt-4 mb-4">
+                                <div class="card show-options">
+                                    @if (item.PricePromotion != 0)
+                                    {
+                                        <div class="ribbon-wrapper">
+                                            <div class="ribbon sale">
+                                                Sale
+                                            </div>
+                                        </div>
+                                    }
+                                    <div class="card-body">
+                                        <a asp-all-route-data="routeData" asp-action="Index" asp-controller="DetailProduct" class="card-link"><img class="card-img-top img-zoom" src="@item.ImageProduct" alt="Card image"></a>
+                                    </div><!--end card-body-->
+                                    <div class="card-footer">
+                                        <h6>@item.NameProduct</h6>
+                                        <div class="text-price">
+                                            <p class="float-left txt_price"><strong>@item.PricePromotion đ</strong></p>
+                                            <p class="float-left txt_price_sale"><del>@item.PriceListed đ</del></p>
+
+                                        </div>
+                                    </div><!-- end card-footer-->
+                                    <div class="show-options-icon bg-light">
+                                        <!-- add Cart-->
+                                        <a style="cursor: pointer" onclick="ajaxAddProduct(@item.Id)" class="link-option"><i class="fas fa-cart-plus icon-green s--20px"></i></a>
+                                        <!-- like-->
+                                        <!-- detail-->
+                                        <a onclick="ajaxGetInforProduct(@item.Id,0,1)" class="link-option" data-toggle="modal" data-target="#detail-product"><i class="fa fa-eye icon-green s--20px"></i></a>
+                                    </div>      <!--end show-text-->
+                                </div><!--end card-->
+                            </li>
+                        }
+                    }
+                </div>
+
+                <ul class="pagination">
+                    @{
+                        var totalProductCount = (int)allTypeProduct["total"];
+                        double limit = 8;
+                        int result_pag = (int)Math.Ceiling(totalProductCount / limit);
+                        int int_limit = (int)8;
+                    }
+
+                    <li class="page-item"><a class="page-link" style="cursor: pointer" onclick="ajaxGetPagniation(@activeType, @int_limit, 0)">Trước</a></li>
+
+                    @{
+                        for (int i = 0; i < result_pag; i++)
+                        {
+                            if (i == 0)
+                            {
+                                <li class="page-item active"><a class="page-link" style="cursor: pointer" onclick="ajaxGetPagniation(@activeType,@int_limit, 0)">@(i+1)</a></li>
+                            }
+                            else
+                            {
+                                <li class="page-item"><a class="page-link" style="cursor: pointer" onclick="ajaxGetPagniation(@activeType, @int_limit, @(i*int_limit)">@(i+1)</a></li>
+                            }
+                        }
+                    }
+                    <li class="page-item"><a class="page-link" style="cursor: pointer" onclick="ajaxGetPagniation(@activeType, @int_limit, @int_limit)">Tiếp</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<script>
+    function ajaxFindPrice(priceFrom, priceTo, id_type) {
+        var xhttp;
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("txtFindPricePro").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("GET", "http://localhost:8080/ProjectWeb/FindPriceProduct?priceFrom=" + priceFrom + "&priceTo=" + priceTo + "&id_type=" + id_type, true);
+        xhttp.send();
+
+    }
+
+    function ajaxGetPagniation(id_type, limit, id_start) {
+        var xhttp;
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("txt_pagination").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("GET", "http://localhost:8080/ProjectWeb/AjaxPaginationTypeProduct?type_product=" + id_type + "&limit=" + limit + "&id_start=" + id_start, true);
+        xhttp.send();
+
+    }
+</script>

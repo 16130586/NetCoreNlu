@@ -82,7 +82,9 @@
 
                                     foreach (var type in res_getTypeProduct)
                                     {
-                                        <a class="dropdown-item" href="TypeProduct?type_product=@cate_id">@type.NameType</a>
+                                        var routeData = new Dictionary<string, string>();
+                                        routeData.Add("type_product", type.Id + "");
+                                        <a asp-all-route-data="@routeData" asp-controller="HomePage" asp-action="TypeProduct" class="dropdown-item">@type.NameType</a>
                                     }
                                 }
                             </div>
