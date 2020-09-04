@@ -123,7 +123,7 @@ namespace NetProject.Controllers
             ViewData["res_getNameTypeProductSmartPhone"] = _typeProductDataAcessor.GetNameTypeProductSmartPhone(requestedTP.IdCategory);
             ViewData["res_getAllTypeProductPromotion"] = _productDataAcessor.GetAllTypeProductPromotion(type_product);
             ViewData["res_getAllTypeProduct"] = _productDataAcessor.GetAllTypeProduct(type_product, 8, 0);
-
+            ViewData["res_requestType"] = requestedTP;
             ViewData["activeType"] = type_product;
 
             if (_typeProductDataAcessor.GetTypeProductById(type_product).IdCategory == 1)

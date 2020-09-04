@@ -325,12 +325,14 @@ namespace NetProject.Controllers
 
                 url = _fileData.Save(entry.Image_product);
             }
+            var requestedType = _typeProductDataAcessor.GetTypeProductById(int.Parse(entry.Select_nameType));
             _productDataAcessor.AdminAddProduct(new Models.Product
             {
                 NameProduct = entry.Name_Product,
                 Active = 1,
                 IdCategory = entry.Select_nameCate,
-                NameType = entry.Select_nameType,
+                NameType = requestedType.NameType,
+                IdType = int.Parse(entry.Select_nameType),
                 ImageProduct = url,
                 ImageDetailProduct = url,
                 Quantity = entry.Quantity_Product,
@@ -404,6 +406,7 @@ namespace NetProject.Controllers
                 NameProduct = entry.Name_Product,
                 Active = entry.Select_Status,
                 IdCategory = entry.Select_nameCate,
+                IdType = int.Parse(entry.Select_nameType),
                 NameType = nameType,
                 ImageProduct = url,
                 ImageDetailProduct = url,

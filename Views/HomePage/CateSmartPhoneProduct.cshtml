@@ -14,6 +14,7 @@
     List<TypeProduct> smartphoneType = ViewData["res_getNameTypeProductSmartPhone"] as List<TypeProduct>;
     List<Product> allProductPromotion = ViewData["res_getAllTypeProductPromotion"] as List<Product>;
     var allTypeProduct = ViewData["res_getAllTypeProduct"] as Dictionary<string, object>;
+    var requestTP = ViewData["res_requestType"] as TypeProduct;
 }
 
 <section id="section-5" class="mt-5">
@@ -77,7 +78,7 @@
         <div id="txtFindPricePro">
             <!--menu title-->
            
-            <span class="menu_title" style="text-transform: uppercase">Điện thoại @smartphoneType[0].NameType ĐANG KHUYẾN MÃI</span>
+            <span class="menu_title" style="text-transform: uppercase">Điện thoại @requestTP.NameType ĐANG KHUYẾN MÃI</span>
             <!--row-->
             <!--product-sale-->
             <div class="owl-carousel promotion-banner owl-theme mt-3 mb-4">
@@ -124,7 +125,7 @@
 
             <!--menu title-->
 
-            <span class="menu_title" style="text-transform: uppercase">ĐIỆN THOẠI @smartphoneType[0].NameType</span>
+            <span class="menu_title" style="text-transform: uppercase">ĐIỆN THOẠI @requestTP.NameType</span>
             <div id="txt_pagination">
                 <!--row-->
                 <div class="row ml-1 mt-3 mb-3">
