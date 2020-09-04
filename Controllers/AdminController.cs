@@ -397,13 +397,14 @@ namespace NetProject.Controllers
 
                 url = _fileData.Save(entry.Image_product);
             }
+            var nameType = _typeProductDataAcessor.GetTypeProductById(int.Parse(entry.Select_nameType)).NameType;
             _productDataAcessor.UpdateProduct(new Models.Product
             {
                 Id = entry.Id_Product,
                 NameProduct = entry.Name_Product,
                 Active = entry.Select_Status,
                 IdCategory = entry.Select_nameCate,
-                NameType = entry.Select_nameType,
+                NameType = nameType,
                 ImageProduct = url,
                 ImageDetailProduct = url,
                 Quantity = entry.Quantity_Product,

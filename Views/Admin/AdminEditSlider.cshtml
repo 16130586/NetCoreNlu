@@ -19,12 +19,13 @@
                 <h2 class="mb-5">Sldier  <small>sửa</small></h2>
                 <form asp-action="AdminEditSliderToDB" asp-controller="Admin" method="post" enctype="multipart/form-data">
                     <div class="form-group">
+                        <input type="hidden" name="Id_Slider" value="@res_SliderEdit.Id" />
                         <label for="image_slisder">Hình slider:</label>
                         <p>
                             <img height="100" class="img-thumbnail" id="output" src="@res_SliderEdit.ImageSlider">
                         </p>
                         <input value="@res_SliderEdit.ImageSlider" name="image_slider_old" style="display: none">
-                        <input type="file" required name="image_slider" id="image_slider" class="form-control-file border w-50" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])"><br>
+                        <input type="file" name="image_slider" id="image_slider" class="form-control-file border w-50" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])"><br>
                     </div>
                     <label for="select_Status">Trạng thái:</label>
                     <select class="form-control bg bg-secondary text-light w-25" id="select_Status" name="select_Status">
