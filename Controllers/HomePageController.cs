@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using com.sun.tools.corba.se.idl.constExpr;
-using jdk.nashorn.@internal.ir;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NetProject.DataAccessor;
