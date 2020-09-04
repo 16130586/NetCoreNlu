@@ -88,6 +88,10 @@ namespace NetProject.DbAccessor
             var rs = _context.TypeProducts.Where(tp => tp.Active > 0).ToList();
             return  rs == null ? new List<TypeProduct>() : rs;
         }
-
+        public List<TypeProduct> GetNameTypeProductSmartPhone(int id_category) {
+            List<TypeProduct> results = new List<TypeProduct>();
+            results = _context.TypeProducts.Where(tp => (tp.IdCategory == id_category) && (tp.Active == 1)).ToList();
+            return results;
+        }
     }
 }

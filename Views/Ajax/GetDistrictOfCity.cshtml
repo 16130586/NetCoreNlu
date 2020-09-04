@@ -1,0 +1,12 @@
+﻿
+@{
+    Layout = null;
+    var districts = ViewData["Districts"] as List<District>;
+}
+
+<option value="0" selected>Chọn Quận/ Huyện</option>
+@foreach (var item in districts)
+{
+    <option value="@item.Id">@item.Name</option>
+
+}

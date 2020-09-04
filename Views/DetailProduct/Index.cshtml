@@ -41,8 +41,8 @@
             </div>
             <!--decrepstion -->
             <div class="col-md-7">
-                <strong class="s-30 text-success">@requestedProduct.PricePromotion đ</strong>
-                <del class="s-20 ml-4">@requestedProduct.PriceListed</del>
+                <strong class="s-30 text-success">@NetProject.Util.MyFormat.ToVietNameseCurrency(requestedProduct.PricePromotion)</strong>
+                <del class="s-20 ml-4">@NetProject.Util.MyFormat.ToVietNameseCurrency(requestedProduct.PriceListed)</del>
                 <p class="card-title font-weight-bold">Thông số kỹ thuật</p>
                 <table class="table table-borderless">
                     <tbody>
@@ -145,10 +145,10 @@
                                 </a>
                             </div><!--end card-body-->
                             <div class="card-footer">
-                                <h6>@product.PricePromotion</h6>
+                                <h6>@NetProject.Util.MyFormat.ToVietNameseCurrency(product.PricePromotion)</h6>
                                 <div class="text-price">
-                                    <p class="float-left txt_price"><strong>@product.PricePromotion ₫</strong></p>
-                                    <p class="float-left txt_price_sale"><del>@product.PriceListed ₫</del></p>
+                                    <p class="float-left txt_price"><strong>@NetProject.Util.MyFormat.ToVietNameseCurrency(product.PricePromotion)</strong></p>
+                                    <p class="float-left txt_price_sale"><del>@NetProject.Util.MyFormat.ToVietNameseCurrency(product.PriceListed)</del></p>
                                 </div>
                             </div><!-- end card-footer-->
                             <div class="show-options-icon bg-light">
@@ -192,10 +192,10 @@
                                     <div class="card-footer">
                                         <h6>@relatedProduct[i].NameProduct</h6>
                                         <div class="text-price">
-                                            <p class="float-left txt_price"><strong>@relatedProduct[i].PriceListed ₫</strong></p>
+                                            <p class="float-left txt_price"><strong>@NetProject.Util.MyFormat.ToVietNameseCurrency(relatedProduct[i].PriceListed)</strong></p>
                                             @if (relatedProduct[i].PricePromotion > 0)
                                             {
-                                                <p class="float-left txt_price_sale"><del>@relatedProduct[i].PricePromotion ₫</del></p>
+                                                <p class="float-left txt_price_sale"><del>@NetProject.Util.MyFormat.ToVietNameseCurrency(relatedProduct[i].PricePromotion)</del></p>
                                             }
 
 
@@ -232,10 +232,10 @@
                                         <div class="card-footer">
                                             <h6>@relatedProduct[i + 1].NameProduct</h6>
                                             <div class="text-price">
-                                                <p class="float-left txt_price"><strong>@relatedProduct[i + 1].PriceListed ₫</strong></p>
+                                                <p class="float-left txt_price"><strong>@NetProject.Util.MyFormat.ToVietNameseCurrency(relatedProduct[i + 1].PriceListed)</strong></p>
                                                 @if (relatedProduct[i + 1].PricePromotion > 0)
                                                 {
-                                                    <p class="float-left txt_price_sale"><del>@relatedProduct[i + 1].PricePromotion ₫</del></p>
+                                                    <p class="float-left txt_price_sale"><del>@NetProject.Util.MyFormat.ToVietNameseCurrency(relatedProduct[i + 1].PricePromotion)</del></p>
                                                 }
                                             </div>
                                         </div><!-- end card-footer-->

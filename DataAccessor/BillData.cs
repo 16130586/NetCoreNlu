@@ -12,9 +12,10 @@ namespace NetProject.DbAccessor
         public BillData(OurDbContext context) : base(context)
         {
         }
-        public void AddBill(Bill bill) {
+        public Bill AddBill(Bill bill) {
             _context.Bills.Add(bill);
             _context.SaveChanges();
+            return bill;
         }
     }
 }

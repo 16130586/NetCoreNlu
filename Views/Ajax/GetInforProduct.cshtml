@@ -50,11 +50,11 @@
             <!--decrepstion -->
             <div class="col-md-6">
                 <div class="detail_1" style="width: 100%">
-                    <strong class="s-30 text-success">@product.PriceListed đ</strong>
+                    <strong class="s-30 text-success">@NetProject.Util.MyFormat.ToVietNameseCurrency(product.PriceListed)</strong>
                     @{
                         if (product.PricePromotion != 0)
                         {
-                            <del class="s-20 ml-4">@product.PricePromotion  ₫</del>
+                            <del class="s-20 ml-4">@NetProject.Util.MyFormat.ToVietNameseCurrency(product.PricePromotion)</del>
                         }
                     }
                     <h5 class="font-weight-bold mt-5 mb-2">Thông số kỹ thuật</h5>
@@ -67,8 +67,9 @@
                                 {
                                     <tr>
                                         <td style="width: 160px"><span class="text-dark">@arrOffStr[i]</span></td>
-                                        @if((i + 1) < arrOffStr.Count()) { 
-                                            <td><span class="text-info">@arrOffStr[i+1]</span></td>
+                                        @if ((i + 1) < arrOffStr.Count())
+                                        {
+                                            <td><span class="text-info">@arrOffStr[i + 1]</span></td>
                                         }
                                     </tr>
                                 }
@@ -81,11 +82,11 @@
                             <input class="w--50px h--50px b-circle border-0 bg-eee text-center" type="number" min="1" max="3" id="getQty" required value="1">
                         </div>
                         <div class="col-md-9 mb-3">
-                            <a style="cursor: pointer; color:white; position: absolute; top: 30px" 
+                            <a style="cursor: pointer; color:white; position: absolute; top: 30px"
                                onclick="(function handleClick() {
                                      ajaxAddProduct(@product.Id, document.getElementById('getQty').value)
                                      document.getElementById('txtDetail').innerHTML = '';
-                                })()" 
+                                })()"
                                class="w-50 pt-2 btn btn-primary my-2 my-sm-0"><h5><i class="fas fa-cart-plus"></i> Thêm vào giỏ</h5></a>
                         </div>
                     </div>

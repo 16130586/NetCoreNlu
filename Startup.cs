@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using com.sun.tools.javac.main;
+using com.sun.xml.@internal.ws.wsdl.writer.document.http;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,21 +33,38 @@ namespace NetProject
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
-
-            services.AddDbContext<OurDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => {
+                options.LoginPath = "/HomePage/PageNotFound";
+                options.LogoutPath = "/";
+                
+            });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin",
+                policy => policy.RequireRole("ADMIN"));
+            });
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => false;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+                options.LoginPath = "/";
+                options.AccessDeniedPath = "/";
+                options.SlidingExpiration = true;
+            });
+            services.AddDbContext<OurDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+           
             services.AddSession(options =>
             {
                 options.Cookie.Name = ".AdventureWorks.Session";
-                options.IdleTimeout = TimeSpan.FromDays(10);
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
                 options.Cookie.IsEssential = true;
             });
 
@@ -58,6 +77,7 @@ namespace NetProject
             services.AddScoped<BillData, BillData>();
             services.AddScoped<BillDetailData, BillDetailData>();
             services.AddScoped<CommentData, CommentData>();
+            services.AddScoped<AddressData, AddressData>();
             services.AddControllersWithViews();
         }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using NetProject.DataAccessor;
 using NetProject.DbAccessor;
 using NetProject.Models;
 using NetProject.Session;
@@ -12,9 +13,11 @@ namespace NetProject.Controllers
     public class AjaxController : Controller
     {
         private readonly ProductData _productDataAccessor;
-        public AjaxController(ProductData productData)
+        private readonly AddressData _addressData;
+        public AjaxController(ProductData productData , AddressData addressData)
         {
             _productDataAccessor = productData;
+            _addressData = addressData;
         }
         public IActionResult Index()
         {
@@ -49,6 +52,13 @@ namespace NetProject.Controllers
             cart.Put(id_product, value);
             SessionFunction.SetCart(HttpContext.Session, cart);
             return View("DelCartProduct");
+        }
+
+        [HttpGet]
+        public IActionResult GetDistrictOfCity([FromQuery] int id_city)
+        {
+            ViewData["Districts"] = _addressData.Districts(id_city);
+            return View("GetDistrictOfCity");
         }
     }
 }
