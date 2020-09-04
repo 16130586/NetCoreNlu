@@ -41,8 +41,8 @@ namespace NetProject.Controllers
                 new Claim("IMG_USER" , user.ImgeUser == null ? "user.jpg" : user.ImgeUser),
                 new Claim("PHONE_NUMBER" , user.NumberPhone ?? ""),
                 new Claim("GENDER" , user.Gender),
-                new Claim("LEVEL" , user.Level ?? "no level")
-
+                new Claim("LEVEL" , user.Level ?? "no level"),
+                new Claim(ClaimTypes.Role , user.Level.ToUpper())
             };
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var authProperties = new AuthenticationProperties {
@@ -120,7 +120,8 @@ namespace NetProject.Controllers
                             new Claim("IMG_USER" , rs_2.ImgeUser),
                             new Claim("PHONE_NUMBER" , rs_2.NumberPhone),
                             new Claim("GENDER" , rs_2.Gender),
-                            new Claim("LEVEL" , rs_2.Level ?? "no level")
+                            new Claim("LEVEL" , rs_2.Level ?? "no level"),
+                            new Claim(ClaimTypes.Role , rs_2.Level.ToUpper())
 
                         };
                         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

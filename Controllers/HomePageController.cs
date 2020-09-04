@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using com.sun.tools.corba.se.idl.constExpr;
+using jdk.nashorn.@internal.ir;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NetProject.DataAccessor;
@@ -216,6 +218,11 @@ namespace NetProject.Controllers
                 SessionFunction.SetCart(HttpContext.Session, new Cart());
             }
             return Redirect("/");
+        }
+        [HttpGet]
+        public IActionResult PageNotFound()
+        {
+            return View("NotFound");
         }
     }
 }
