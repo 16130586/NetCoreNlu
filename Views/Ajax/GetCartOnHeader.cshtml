@@ -24,7 +24,7 @@
                         <p style="font-size: 13px">@item.NameProduct</p>
                         <p style="font-size: 13px; color: coral">
                             <input type="number" onchange="ajaxSetQtyOnHeader(@item.Id,this.value)" value="@c.Quantities[item.Id + ""]" style="width: 40px; color: crimson; line-height: 30px">
-                            x @item.PricePromotion ₫
+                            x @NetProject.Util.MyFormat.ToVietNameseCurrency(item.PricePromotion)
                         </p>
                     </div>
                     <div class="col-md-2">
@@ -36,11 +36,11 @@
         }
     </div>
     <div class="container">
-        <p>Tổng tiền: <span style="color: coral">@c.Total ₫</span></p>
+        <p>Tổng tiền: <span style="color: coral">@NetProject.Util.MyFormat.ToVietNameseCurrency(c.Total)</span></p>
         <div style="height: 1px; width: 200px; background-color: #58585854; margin-top: 10px; margin-bottom: 10px" class="container"></div>
         @if (Context.User != null && Context.User.Identity != null && Context.User.Identity.IsAuthenticated)
         {
-            <td><a asp-controller="User" asp-action="Checkout" class="btn btn-primary">Đặt hàng</a></td>
+            <td><a asp-controller="HomePage" asp-action="Checkout" class="btn btn-primary">Đặt hàng</a></td>
         }
         else
         {

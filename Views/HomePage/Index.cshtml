@@ -127,10 +127,10 @@
                             </div><!--end card-body-->
                             <div class="card-footer">
                                 <h6>@product.NameProduct</h6>
-                                <h6>@product.PricePromotion</h6>
+                                <h6>@NetProject.Util.MyFormat.ToVietNameseCurrency(product.PricePromotion)</h6>
                                 <div class="text-price">
-                                    <p class="float-left txt_price"><strong>@product.PricePromotion ₫</strong></p>
-                                    <p class="float-left txt_price_sale"><del>@product.PriceListed ₫</del></p>
+                                    <p class="float-left txt_price"><strong>@NetProject.Util.MyFormat.ToVietNameseCurrency(product.PricePromotion)</strong></p>
+                                    <p class="float-left txt_price_sale"><del>@NetProject.Util.MyFormat.ToVietNameseCurrency(product.PriceListed)</del></p>
                                 </div>
                             </div><!-- end card-footer-->
                             <div class="show-options-icon bg-light">
@@ -178,10 +178,10 @@
                                 <div class="card-footer">
                                     <h6>@hotSmartPhones[i].NameProduct</h6>
                                     <div class="text-price">
-                                        <p class="float-left txt_price"><strong>@hotSmartPhones[i].PriceListed ₫</strong></p>
+                                        <p class="float-left txt_price"><strong>@NetProject.Util.MyFormat.ToVietNameseCurrency(hotSmartPhones[i].PriceListed)</strong></p>
                                         @if (hotSmartPhones[i].PricePromotion > 0)
                                         {
-                                            <p class="float-left txt_price_sale"><del>@hotSmartPhones[i].PricePromotion ₫</del></p>
+                                            <p class="float-left txt_price_sale"><del>@NetProject.Util.MyFormat.ToVietNameseCurrency(hotSmartPhones[i].PricePromotion)</del></p>
                                         }
 
 
@@ -219,10 +219,10 @@
                                     <div class="card-footer">
                                         <h6>@hotSmartPhones[i + 1].NameProduct</h6>
                                         <div class="text-price">
-                                            <p class="float-left txt_price"><strong>@hotSmartPhones[i + 1].PriceListed ₫</strong></p>
+                                            <p class="float-left txt_price"><strong>@NetProject.Util.MyFormat.ToVietNameseCurrency(hotSmartPhones[i].PriceListed)</strong></p>
                                             @if (hotSmartPhones[i + 1].PricePromotion > 0)
                                             {
-                                                <p class="float-left txt_price_sale"><del>@hotSmartPhones[i + 1].PricePromotion ₫</del></p>
+                                                <p class="float-left txt_price_sale"><del>@NetProject.Util.MyFormat.ToVietNameseCurrency(hotSmartPhones[i + 1].PricePromotion)</del></p>
                                             }
                                         </div>
                                     </div><!-- end card-footer-->
@@ -266,10 +266,10 @@
                                 <div class="card-footer">
                                     <h6>@hotAccessProducts[i].NameProduct</h6>
                                     <div class="text-price">
-                                        <p class="float-left txt_price"><strong>@hotAccessProducts[i].PriceListed ₫</strong></p>
+                                        <p class="float-left txt_price"><strong>@NetProject.Util.MyFormat.ToVietNameseCurrency(hotAccessProducts[i].PriceListed)</strong></p>
                                         @if (hotAccessProducts[i].PricePromotion > 0)
                                         {
-                                            <p class="float-left txt_price_sale"><del>@hotAccessProducts[i].PricePromotion ₫</del></p>
+                                            <p class="float-left txt_price_sale"><del>@NetProject.Util.MyFormat.ToVietNameseCurrency(hotAccessProducts[i].PricePromotion) </del></p>
                                         }
 
 
@@ -307,10 +307,10 @@
                                     <div class="card-footer">
                                         <h6>@hotAccessProducts[i + 1].NameProduct</h6>
                                         <div class="text-price">
-                                            <p class="float-left txt_price"><strong>@hotAccessProducts[i + 1].PriceListed ₫</strong></p>
+                                            <p class="float-left txt_price"><strong>@NetProject.Util.MyFormat.ToVietNameseCurrency(hotAccessProducts[i + 1].PriceListed)</strong></p>
                                             @if (hotAccessProducts[i + 1].PricePromotion > 0)
                                             {
-                                                <p class="float-left txt_price_sale"><del>@hotAccessProducts[i + 1].PricePromotion ₫</del></p>
+                                                <p class="float-left txt_price_sale"><del>@NetProject.Util.MyFormat.ToVietNameseCurrency(hotAccessProducts[i + 1].PricePromotion) </del></p>
                                             }
                                         </div>
                                     </div><!-- end card-footer-->

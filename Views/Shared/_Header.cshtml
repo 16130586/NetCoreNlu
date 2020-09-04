@@ -132,9 +132,9 @@
                                                 <p style="font-size: 13px">@p.NameProduct</p>
                                                 <p style="font-size: 13px; color: coral">
 
-                                                    <input type="number" onchange="ajaxSetQtyOnHeader(@p.Id,this.value)" min="1" max="3" value="@p.Quantity" style="width: 40px; color: crimson; line-height: 30px">
+                                                    <input type="number" onchange="ajaxSetQtyOnHeader(@p.Id,this.value)" min="1" max="3" value="@cart.Quantities[p.Id + ""]" style="width: 40px; color: crimson; line-height: 30px">
 
-                                                    x @p.PriceListed ₫
+                                                    x  @NetProject.Util.MyFormat.ToVietNameseCurrency(p.PriceListed)
                                                 </p>
                                             </div>
                                             <div class="col-md-2">
@@ -145,11 +145,11 @@
                                     }
                                 </div>
                                 <div class="container">
-                                    <p>Tổng tiền: <span style="color: coral">@totalMoney ₫</span></p>
+                                    <p>Tổng tiền: <span style="color: coral">@NetProject.Util.MyFormat.ToVietNameseCurrency(totalMoney)</span></p>
                                     <div style="height: 1px; width: 200px; background-color: #58585854; margin-top: 10px; margin-bottom: 10px" class="container"></div>
                                     @if (user != null && user.Identity.IsAuthenticated)
                                     {
-                                        <a href="CheckOut" class="btn btn-primary">Đặt hàng</a>
+                                        <a asp-action="Checkout" asp-controller="HomePage"  class="btn btn-primary">Đặt hàng</a>
                                     }
                                     else
                                     {

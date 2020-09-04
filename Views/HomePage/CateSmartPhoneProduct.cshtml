@@ -102,9 +102,9 @@
                                 <div class="card-footer">
                                     <h6>@item.NameProduct</h6>
                                     <div class="text-price">
-                                        <p class="float-left txt_price"><strong>@item.PricePromotion</strong></p>
+                                        <p class="float-left txt_price"><strong>@NetProject.Util.MyFormat.ToVietNameseCurrency(item.PricePromotion)</strong></p>
 
-                                        <p class="float-left txt_price_sale"><del>@item.PriceListed đ</del></p>
+                                        <p class="float-left txt_price_sale"><del>@NetProject.Util.MyFormat.ToVietNameseCurrency(item.PriceListed)</del></p>
                                     </div>
                                 </div><!-- end card-footer-->
                                 <div class="show-options-icon bg-light">
@@ -150,8 +150,8 @@
                                     <div class="card-footer">
                                         <h6>@item.NameProduct</h6>
                                         <div class="text-price">
-                                            <p class="float-left txt_price"><strong>@item.PricePromotion đ</strong></p>
-                                            <p class="float-left txt_price_sale"><del>@item.PriceListed đ</del></p>
+                                            <p class="float-left txt_price"><strong>@NetProject.Util.MyFormat.ToVietNameseCurrency(item.PricePromotion)</strong></p>
+                                            <p class="float-left txt_price_sale"><del>@NetProject.Util.MyFormat.ToVietNameseCurrency(item.PriceListed)</del></p>
 
                                         </div>
                                     </div><!-- end card-footer-->

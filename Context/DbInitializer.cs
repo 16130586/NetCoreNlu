@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using java.text;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using NetProject.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace NetProject.Context
@@ -12,15 +15,33 @@ namespace NetProject.Context
     public class DbInitializer
     {
         private readonly string _deployUrl;
+        private readonly string _rootUrl;
+
         public DbInitializer(IHostingEnvironment env, IConfiguration appConfig)
         {
             _deployUrl = appConfig["DeployUrl"];
+            _rootUrl = env.WebRootPath;
         }
         public void Initialize(OurDbContext context)
         {
             context.Database.EnsureCreated();
             context.Database.Migrate();
-            if (context.Users.Count() <= 0) {
+
+            if (context.Cities.Count() <= 0)
+            {
+                string query = System.IO.File.ReadAllText(Path.Combine(Path.Combine(_rootUrl, "feed-data"), "tinhtp.txt") , Encoding.Unicode);
+                context.Database.ExecuteSqlCommand(query);
+                context.SaveChanges();
+            }
+            if (context.Districts.Count() <= 0)
+            {
+                string query = System.IO.File.ReadAllText(Path.Combine(Path.Combine(_rootUrl, "feed-data"), "quanhuyen.txt") , Encoding.Unicode);
+                context.Database.ExecuteSqlCommand(query);
+                context.SaveChanges();
+            }
+           
+            if (context.Users.Count() <= 0)
+            {
                 // seeding for user
                 User admin = new User
                 {
@@ -36,7 +57,8 @@ namespace NetProject.Context
                 context.Users.Add(admin);
                 context.SaveChanges();
             }
-            if (context.Categories.Count() <= 0) {
+            if (context.Categories.Count() <= 0)
+            {
                 context.Categories.Add(new Category
                 {
                     NameCategory = "Điện thoại",
@@ -49,7 +71,8 @@ namespace NetProject.Context
                 });
                 context.SaveChanges();
             }
-            if (context.TypeProducts.Count() <= 0) {
+            if (context.TypeProducts.Count() <= 0)
+            {
                 var mobileCate = context.Categories.Where(ct => ct.NameCategory.Equals("Điện thoại")).FirstOrDefault();
                 var tabletCate = context.Categories.Where(ct => ct.NameCategory.Equals("Máy tính bảng")).FirstOrDefault();
 
@@ -60,7 +83,7 @@ namespace NetProject.Context
                     IdCategory = mobileCate.Id,
                     NameType = "Apple",
                     ImageType = _deployUrl + "/project/image/type/logo_iphone.png"
-                }) ;
+                });
 
                 context.TypeProducts.Add(new TypeProduct
                 {
@@ -100,7 +123,8 @@ namespace NetProject.Context
                 context.SaveChanges();
             }
 
-            if (context.Products.Count() <= 0) {
+            if (context.Products.Count() <= 0)
+            {
                 var mobileCate = context.Categories.Where(ct => ct.NameCategory.Equals("Điện thoại")).FirstOrDefault();
                 var huaweiType = context.TypeProducts.Where(type => type.NameType.Equals("Huawei")).FirstOrDefault();
                 var appleType = context.TypeProducts.Where(type => type.NameType.Equals("Apple")).FirstOrDefault();

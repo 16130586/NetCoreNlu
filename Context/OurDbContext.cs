@@ -17,6 +17,11 @@ namespace NetProject.Context
         public DbSet<Slider> Sliders { get; set; }
         public DbSet<TypeProduct> TypeProducts { get; set; }
         public DbSet<User> Users { get; set; }
+
+        public DbSet<City> Cities { get; set; }
+
+
+        public DbSet<District> Districts { get; set; }
         public OurDbContext(DbContextOptions<OurDbContext> options) : base(options)
         {
         }
@@ -30,6 +35,8 @@ namespace NetProject.Context
             modelBuilder.Entity<BillDetail>().ToTable("bill_detail");
             modelBuilder.Entity<Bill>().ToTable("bill");
             modelBuilder.Entity<User>().ToTable("user");
+            modelBuilder.Entity<City>().ToTable("city").Property(city => city.Id).ValueGeneratedNever();
+            modelBuilder.Entity<District>().ToTable("district").Property(district => district.Id).ValueGeneratedNever();
         }
     }
 }
